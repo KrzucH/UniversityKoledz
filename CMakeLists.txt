@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 project(Koledz)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -12,15 +13,12 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp src/database.cpp src/student.cpp)
 
 enable_testing()
 
-add_executable(hello_test  src/tests.cpp)
+add_executable(hello_test  src/tests.cpp src/database.cpp src/student.cpp)
 target_link_libraries(hello_test  GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(hello_test)
-
-
-

@@ -8,14 +8,12 @@ enum class Gender {
 
 class Student {
     public:
-
-        Student( std::string name, 
+        Student(std::string name, 
                 std::string surname, 
                 std::string street, 
                 size_t id,
                 std::string pesel,
-                Gender gender
-            );
+                Gender gender);
 
     private:
 
