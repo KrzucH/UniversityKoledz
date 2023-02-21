@@ -2,7 +2,8 @@
 #include "student.hpp"
 
 class Database {
-    public:
-        void add(const Student & s);
-
+public:
+    bool add(const Student & s);
+private:
+    bool isAdded_ = false;
 };
