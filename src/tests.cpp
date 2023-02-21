@@ -20,3 +20,15 @@ TEST(Struct_Check, Task1_and_2){
 
 
 }
+
+TEST(DisplayDB, DisplayEmptyDb) {
+  Database db;
+  auto content = db.show();
+  std::string expected = "";
+  EXPECT_EQ(content, expected);
+}
+
+// TEST(DisplayDB, DisplayNonEmptDb) {
+//     Database db;
+//     db.display();
+// }
