@@ -2,7 +2,19 @@
 #include "student.hpp"
 #include "database.hpp"
 
-TEST(Struct_Check, Task1_and_2){
+struct DatabaseTest : ::testing::Test {
+  Database db;
+};
+
+
+
+TEST_F(DatabaseTest, DisplayEmptyDb) {
+  auto content = db.show();
+  std::string expected = "";
+  EXPECT_EQ(content, expected);
+}
+
+TEST_F(DatabaseTest, DisplayNonEmptDb) {
   Student adam {
     "Jan",
     "Kowalski",
@@ -11,24 +23,10 @@ TEST(Struct_Check, Task1_and_2){
     "1234567891011",
     Gender::Male
   };
+  db.add(adam);
 
-  Database db;
-  // db.add(adam);
-  // auto isAdded = db.add(adam);
-  EXPECT_TRUE(db.add(adam));
-  EXPECT_FALSE(db.add(adam));
-
-
-}
-
-TEST(DisplayDB, DisplayEmptyDb) {
-  Database db;
   auto content = db.show();
-  std::string expected = "";
+  std::string expected = "Jan Kowalski; ul. Leśna 12, 00-100 Warszawa; 123456; 1234567891011; Male";
   EXPECT_EQ(content, expected);
+    
 }
-
-// TEST(DisplayDB, DisplayNonEmptDb) {
-//     Database db;
-//     db.display();
-// }
