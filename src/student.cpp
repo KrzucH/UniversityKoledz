@@ -1,12 +1,12 @@
 #include "student.hpp"
 
 Student::Student(
-    std::string name,
-    std::string surname,
-    std::string street,
-    size_t id,
-    std::string pesel,
-    Gender gender)
+    const std::string& name,
+    const std::string& surname,
+    const std::string& street,
+    const size_t& id,
+    const std::string& pesel,
+    const Gender& gender)
     : name_(name), surname_(surname), street_(street), id_(id), pesel_(pesel), gender_(gender) {}
 
 std::string Student::show() const {
