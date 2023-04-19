@@ -32,21 +32,21 @@ Gender Student::getGender() const {
     return gender_;
 };
 
-void Student::setName(std::string& name) {
-    name = name_;
+void Student::setName(const std::string& name) {
+    name_ = name;
 };
-void Student::setSurname(std::string& surname) {
-    surname = surname_;
+void Student::setSurname(const std::string& surname) {
+    surname_ = surname;
 };
-void Student::setStreet(std::string& street) {
-    street = street_;
+void Student::setStreet(const std::string& street) {
+    street_ = street;
 };
-void Student::setId(size_t& id) {
-    id = id_;
+void Student::setId(const size_t& id) {
+    id_ = id;
 };
-void Student::setPesel(std::string& pesel) {
-    pesel = pesel_;
+void Student::setPesel(const std::string& pesel) {
+    pesel_ = pesel;
 };
-void Student::setGender(Gender& gender) {
-    gender = gender_;
+void Student::setGender(const Gender& gender) {
+    gender_ = gender;
 };
