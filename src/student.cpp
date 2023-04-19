@@ -13,6 +13,7 @@ std::string Student::show() const {
     return name_ + " " + surname_ + "; " + street_ + "; " + std::to_string(id_) + "; " + pesel_ + "; " + "Male \n";
 };
 
+
 std::string Student::getName() const {
     return name_;
 };

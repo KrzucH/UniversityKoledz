@@ -16,3 +16,17 @@ std::string Database::show() const {
     }
     return result;
 }
+
+std::vector<Student> Database::searchSurname(const std::string& surname) {
+    std::vector<Student> vec;
+    std::string female = surname;
+    female.erase(female.size() - 1, 1);
+    female += "a";
+        for (auto&& student : students_ ) {
+        if(surname == student.getSurname() || female == student.getSurname()) {
+            vec.push_back(student);
+            std::cout << vec[vec.size() - 1].show();
+        }             
+    }
+    return vec;
+}

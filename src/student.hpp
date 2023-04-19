@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 enum class Gender {
     Male,
@@ -16,6 +17,7 @@ public:
             const Gender& gender);
 
     std::string show() const;
+    std::vector<std::string> searchSurname (const std::string& surname);
 
     std::string getName () const;
     std::string getSurname () const;
