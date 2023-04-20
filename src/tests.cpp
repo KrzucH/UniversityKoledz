@@ -4,6 +4,7 @@
 
 struct DatabaseTest : ::testing::Test {
     Database db;
+    
 };
 
 TEST_F(DatabaseTest, DisplayEmptyDb) {
@@ -249,4 +250,75 @@ TEST_F(DatabaseTest, SortByPesel) {
     EXPECT_EQ("95040478923", pesel[3]);
     EXPECT_EQ("06301585831", pesel[4]);
     EXPECT_EQ("10272050321", pesel[5]);
+}
+
+TEST_F(DatabaseTest, SortBySurname) {
+    std::vector<std::string> surname;
+
+    Student adam{
+        "Jan",
+        "Kowalski",
+        "ul. Lesna 12, 00-100 Warszawa",
+        123456,
+        "93070302143",
+        Gender::Male};
+    db.add(adam);
+
+    Student ewa{
+        "Ewa",
+        "Kowalska",
+        "ul. Lesna 12, 00-100 Warszawa",
+        123456,
+        "10272050321",
+        Gender::Male};
+    db.add(ewa);
+
+    Student krzysztof{
+        "Krzysztof",
+        "Nowak",
+        "ul. Lesna 12, 00-100 Warszawa",
+        123456,
+        "45091309453",
+        Gender::Male};
+    db.add(krzysztof);
+
+    Student jan{
+        "Jan",
+        "Samulski",
+        "ul. Lesna 12, 00-100 Warszawa",
+        123456,
+        "80123009842",
+        Gender::Male};
+    db.add(jan);
+
+    Student zdzisław{
+        "Zdzisław",
+        "Kowalski",
+        "ul. Lesna 12, 00-100 Warszawa",
+        123456,
+        "95040478923",
+        Gender::Male};
+    db.add(zdzisław);
+
+    Student marcin{
+        "Marcin",
+        "Nowicki",
+        "ul. Lesna 12, 00-100 Warszawa",
+        123456,
+        "06301585831",
+        Gender::Male};
+    db.add(marcin);
+
+    db.sortBySurname();
+
+    for(const auto& n : db.students_) {
+        surname.push_back(n.getSurname());
+    }
+    EXPECT_EQ("Kowalska", surname[0]);
+    EXPECT_EQ("Kowalski", surname[1]);
+    EXPECT_EQ("Kowalski", surname[2]);
+    EXPECT_EQ("Nowak", surname[3]);
+    EXPECT_EQ("Nowicki", surname[4]);
+    EXPECT_EQ("Samulski", surname[5]);
+       
 }
