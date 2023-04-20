@@ -45,3 +45,16 @@ std::vector<Student> Database::searchPesel(const size_t& pesel) {
     }
     return vec;
 }
+
+void Database::sortByPesel() const {
+    // std::stable_sort(students_.begin(), students_.end());
+
+   for(auto&& n : students_) {
+        std::string num = n.getPesel();
+        num.erase(num.begin() + 4, num.end());
+        for(int i = 0; i <= students_.size(); i++) {
+            std::string num2 = students_[i].getPesel();
+            num2.erase(num2.begin() + 4, num2.end());
+        }
+   }
+}

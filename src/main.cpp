@@ -10,35 +10,35 @@ int main() {
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
         123456,
-        "1234567891011",
+        "7606567891011",
         Gender::Male};
     Student agnieszka{
         "Agnieszka",
         "Kowalska",
-        "ul. Leśna 12, 00-100 Warszawa",
+        "ul. Lesna 12, 00-100 Warszawa",
         832439,
-        "2314623461342",
+        "4501623461342",
         Gender::Female};
     Student mariusz{
         "Mariusz",
         "Kowalski",
-        "ul. Zimna 22, 11-100 Kraków",
+        "ul. Zimna 22, 11-100 Krakow",
         657433,
-        "1110987654321",
+        "0930987654321",
         Gender::Male};
     Student jan{
         "Jan",
         "Nowak",
-        "ul. Szkolna 15, 12-100 Poznań",
+        "ul. Szkolna 15, 12-100 Poznan",
         192534,
-        "9352315879911",
+        "9306315879911",
         Gender::Male};
     Student jacek{
         "Jacek",
         "Sztuka",
-        "ul. Wesoła 42, 13-100 Szczecin",
+        "ul. Wesola 42, 13-100 Szczecin",
         654321,
-        "7891234567711",
+        "1023234567711",
         Gender::Male};
 
     db.add(adam);
@@ -52,5 +52,7 @@ int main() {
     db.searchSurname("Kowalska");
     std::cout << '\n';
     db.searchPesel(9352315879911);
+    std::cout << '\n';
+    db.sortByPesel();
     return 0;
 }
