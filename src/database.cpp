@@ -19,13 +19,13 @@ std::string Database::show() const {
 
 std::vector<Student> Database::searchSurname(const std::string& surname) {
     std::vector<Student> vec;
-    for (auto&& student : students_ ) {
-        if(surname == student.getSurname()) {
+    for (auto&& student : students_) {
+        if (surname == student.getSurname()) {
             vec.push_back(student);
             std::cout << vec[vec.size() - 1].show();
-        }             
+        }
     }
-    if(vec.size() == 0) {
+    if (vec.size() == 0) {
         std::cout << "Nie ma takiej osoby o danym NAZWISKU w bazie danych.";
     }
     return vec;
@@ -34,27 +34,37 @@ std::vector<Student> Database::searchSurname(const std::string& surname) {
 std::vector<Student> Database::searchPesel(const size_t& pesel) {
     std::vector<Student> vec;
     std::string pesel1 = std::to_string(pesel);
-    for(auto&& student : students_) {
-        if(pesel1 == student.getPesel()) {
+    for (auto&& student : students_) {
+        if (pesel1 == student.getPesel()) {
             vec.push_back(student);
             std::cout << vec[vec.size() - 1].show();
         }
     }
-    if(vec.size() == 0) {
+    if (vec.size() == 0) {
         std::cout << "Nie ma takiej osoby o danym PESELU w bazie danych.";
     }
     return vec;
 }
 
-void Database::sortByPesel() const {
-    // std::stable_sort(students_.begin(), students_.end());
+void Database::sortByPesel() {
+    std::sort(students_.begin(), students_.end(), [](auto first, auto second) {
+        std::string pesel1 = first.getPesel();
+        std::string pesel2 = second.getPesel();
 
-   for(auto&& n : students_) {
-        std::string num = n.getPesel();
-        num.erase(num.begin() + 4, num.end());
-        for(int i = 0; i <= students_.size(); i++) {
-            std::string num2 = students_[i].getPesel();
-            num2.erase(num2.begin() + 4, num2.end());
+        if ((pesel1[0] == '0') || (pesel1[0] == '1')) {
+            pesel1 += 1;
         }
-   }
+        if ((pesel2[0] == '0') || (pesel2[0] == '1')) {
+            pesel2 += 1;
+        }
+
+        if (pesel1.size() == pesel2.size()) {
+            return pesel1 < pesel2;
+        } else {
+            return pesel1.size() < pesel2.size();
+        }
+
+        return pesel1 > pesel2;
+    });
+    
 }

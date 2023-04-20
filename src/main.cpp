@@ -54,5 +54,6 @@ int main() {
     db.searchPesel(9352315879911);
     std::cout << '\n';
     db.sortByPesel();
+    db.display();
     return 0;
 }

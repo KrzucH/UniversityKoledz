@@ -10,9 +10,10 @@ public:
     std::string show() const;
     std::vector<Student> searchSurname(const std::string& surname);
     std::vector<Student> searchPesel(const size_t& pesel);
-    void sortByPesel() const;
+    void sortByPesel();
+    std::vector<Student> students_;
 
 private:
     bool isAdded_ = false;
-    std::vector<Student> students_;
+    
 };

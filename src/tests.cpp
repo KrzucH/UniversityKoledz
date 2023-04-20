@@ -100,4 +100,80 @@ TEST_F(DatabaseTest, SearchByName) {
     // EXPECT_TRUE(Checker);
     EXPECT_EQ(Kowalski.size(), i);
 }
+TEST_F(DatabaseTest, SearchByPesel) {
+}
+
+TEST_F(DatabaseTest, SortByPesel) {
+    std::vector<std::string> pesel;
+        Student adam{
+        "Jan",
+        "Kowalski",
+        "ul. Lesna 12, 00-100 Warszawa",
+        123456,
+        "93070302143",
+        Gender::Male};
+    db.add(adam);
+
+    Student ewa{
+        "Ewa",
+        "Kowalska",
+        "ul. Lesna 12, 00-100 Warszawa",
+        123456,
+        "10272050321",
+        Gender::Male};
+    db.add(ewa);
+
+    Student krzysztof{
+        "Krzysztof",
+        "Nowak",
+        "ul. Lesna 12, 00-100 Warszawa",
+        123456,
+        "45091309453",
+        Gender::Male};
+    db.add(krzysztof);
+
+    Student jan{
+        "Jan",
+        "Samulski",
+        "ul. Lesna 12, 00-100 Warszawa",
+        123456,
+        "80123009842",
+        Gender::Male};
+    db.add(jan);
+
+    Student zdzisław{
+        "Zdzisław",
+        "Kowalski",
+        "ul. Lesna 12, 00-100 Warszawa",
+        123456,
+        "95040478923",
+        Gender::Male};
+    db.add(zdzisław);
+
+    Student marcin{
+        "Marcin",
+        "Nowicki",
+        "ul. Lesna 12, 00-100 Warszawa",
+        123456,
+        "06301585831",
+        Gender::Male};
+    db.add(marcin);
+
+    db.sortByPesel();
+    
+    for(const auto& n : db.students_) {
+        pesel.push_back(n.getPesel());
+    }
+    
+
+    EXPECT_EQ("45091309453", pesel[0]);
+    EXPECT_EQ("80123009842", pesel[1]);
+    EXPECT_EQ("93070302143", pesel[2]);
+    EXPECT_EQ("95040478923", pesel[3]);
+    EXPECT_EQ("06301585831", pesel[4]);
+    EXPECT_EQ("10272050321", pesel[5]);
+
+      
+
+}
 
