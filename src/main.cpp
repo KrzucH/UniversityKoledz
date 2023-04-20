@@ -12,6 +12,13 @@ int main() {
         123456,
         "7606567891011",
         Gender::Male};
+    Student jacek{
+        "Jacek",
+        "Sztuka",
+        "ul. Wesola 42, 13-100 Szczecin",
+        654321,
+        "1023234567711",
+        Gender::Male};
     Student agnieszka{
         "Agnieszka",
         "Kowalska",
@@ -33,14 +40,7 @@ int main() {
         192534,
         "9306315879911",
         Gender::Male};
-    Student jacek{
-        "Jacek",
-        "Sztuka",
-        "ul. Wesola 42, 13-100 Szczecin",
-        654321,
-        "1023234567711",
-        Gender::Male};
-
+   
     db.add(adam);
     db.add(agnieszka);
     db.add(mariusz);
@@ -53,6 +53,8 @@ int main() {
     std::cout << '\n';
     db.searchPesel("1023234567711");
     db.sortByPesel();
+    db.display();
+    db.sortBySurname();
     db.display();
     return 0;
 }

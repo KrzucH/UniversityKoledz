@@ -47,7 +47,7 @@ std::string Database::searchPesel(const std::string& pesel) {
 }
 
 void Database::sortByPesel() {
-    std::sort(students_.begin(), students_.end(), [](auto first, auto second) {
+    sort(students_.begin(), students_.end(), [](auto first, auto second) {
         std::string pesel1 = first.getPesel();
         std::string pesel2 = second.getPesel();
 
@@ -65,5 +65,12 @@ void Database::sortByPesel() {
         }
 
         return pesel1 > pesel2;
+    });
+}
+void Database::sortBySurname() {
+    sort(students_.begin(), students_.end(), [] (auto first, auto second) {
+        std::string surname1 = first.getSurname();
+        std::string surname2 = second.getSurname();
+        return surname1 < surname2;
     });
 }

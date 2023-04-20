@@ -89,14 +89,11 @@ TEST_F(DatabaseTest, SearchByName) {
 
     auto content = db.searchSurname("Kowalski");
     int i = 0;
-    bool Checker = true;
     for (auto n : content) {
         if (n.show() == Kowalski[i].show()) {
             i++;
         }
-        //     Checker = false;
     }
-    // EXPECT_TRUE(Checker);
     EXPECT_EQ(Kowalski.size(), i);
 }
 TEST_F(DatabaseTest, SearchByPesel) {
