@@ -17,8 +17,7 @@ public:
             const Gender& gender);
 
     std::string show() const;
-    std::vector<std::string> searchSurname (const std::string& surname);
-
+    
     std::string getName () const;
     std::string getSurname () const;
     std::string getStreet () const;

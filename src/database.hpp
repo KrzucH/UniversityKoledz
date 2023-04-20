@@ -8,6 +8,7 @@ public:
     void display() const;
     std::string show() const;
     std::vector<Student> searchSurname(const std::string& surname);
+    std::vector<Student> searchPesel(const size_t& pesel);
 
 private:
     bool isAdded_ = false;

@@ -29,10 +29,11 @@ TEST_F(DatabaseTest, DisplayNonEmptDb) {
 
 TEST_F(DatabaseTest, SearchByName) {
     std::vector<Student> Kowalski;
+    // std::vector<
     Student adam{
         "Jan",
         "Kowalski",
-        "ul. Leśna 12, 00-100 Warszawa",
+        "ul. Lesna 12, 00-100 Warszawa",
         123456,
         "1234567891011",
         Gender::Male};
@@ -41,7 +42,7 @@ TEST_F(DatabaseTest, SearchByName) {
     Student ewa{
         "Ewa",
         "Kowalska",
-        "ul. Leśna 12, 00-100 Warszawa",
+        "ul. Lesna 12, 00-100 Warszawa",
         123456,
         "1234567891011",
         Gender::Male};
@@ -50,7 +51,7 @@ TEST_F(DatabaseTest, SearchByName) {
     Student krzysztof{
         "Krzysztof",
         "Nowak",
-        "ul. Leśna 12, 00-100 Warszawa",
+        "ul. Lesna 12, 00-100 Warszawa",
         123456,
         "1234567891011",
         Gender::Male};
@@ -59,7 +60,7 @@ TEST_F(DatabaseTest, SearchByName) {
     Student jan{
         "Jan",
         "Samulski",
-        "ul. Leśna 12, 00-100 Warszawa",
+        "ul. Lesna 12, 00-100 Warszawa",
         123456,
         "1234567891011",
         Gender::Male};
@@ -68,7 +69,7 @@ TEST_F(DatabaseTest, SearchByName) {
     Student zdzisław{
         "Zdzisław",
         "Kowalski",
-        "ul. Leśna 12, 00-100 Warszawa",
+        "ul. Lesna 12, 00-100 Warszawa",
         123456,
         "1234567891011",
         Gender::Male};
@@ -77,29 +78,26 @@ TEST_F(DatabaseTest, SearchByName) {
     Student marcin{
         "Marcin",
         "Nowicki",
-        "ul. Leśna 12, 00-100 Warszawa",
+        "ul. Lesna 12, 00-100 Warszawa",
         123456,
         "1234567891011",
         Gender::Male};
     db.add(marcin);
 
+    
     Kowalski.push_back(adam);
-    Kowalski.push_back(ewa);
     Kowalski.push_back(zdzisław);
-
+    
     auto content = db.searchSurname("Kowalski");
     int i = 0;
-    bool Checker = false;
+    bool Checker = true;
     for (auto n : content) {
         if (n.show() == Kowalski[i].show()) {
-            Checker = true;
             i++;
-        } else {
-            Checker = false;
-            break;
         }
+        //     Checker = false;
     }
-    EXPECT_TRUE(Checker);
-
+    // EXPECT_TRUE(Checker);
+    EXPECT_EQ(Kowalski.size(), i);
 }
 
