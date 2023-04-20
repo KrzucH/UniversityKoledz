@@ -19,6 +19,7 @@ std::string Database::show() const {
 
 std::vector<Student> Database::searchSurname(const std::string& surname) {
     std::vector<Student> vec;
+
     for (auto&& student : students_) {
         if (surname == student.getSurname()) {
             vec.push_back(student);
@@ -31,19 +32,18 @@ std::vector<Student> Database::searchSurname(const std::string& surname) {
     return vec;
 }
 
-std::vector<Student> Database::searchPesel(const size_t& pesel) {
-    std::vector<Student> vec;
-    std::string pesel1 = std::to_string(pesel);
+std::string Database::searchPesel(const std::string& pesel) {
+    std::string pesel1;
     for (auto&& student : students_) {
-        if (pesel1 == student.getPesel()) {
-            vec.push_back(student);
-            std::cout << vec[vec.size() - 1].show();
+        if (pesel == student.getPesel()) {
+            pesel1 = student.show();
+            std::cout << pesel1 << '\n';
         }
     }
-    if (vec.size() == 0) {
-        std::cout << "Nie ma takiej osoby o danym PESELU w bazie danych.";
+    if(pesel1 == "") {
+        std::cout << "Nie ma takiego osoby o danym PESEL w bazie danych.\n";
     }
-    return vec;
+    return pesel1;
 }
 
 void Database::sortByPesel() {
@@ -66,5 +66,4 @@ void Database::sortByPesel() {
 
         return pesel1 > pesel2;
     });
-    
 }

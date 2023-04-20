@@ -9,7 +9,7 @@ public:
     void display() const;
     std::string show() const;
     std::vector<Student> searchSurname(const std::string& surname);
-    std::vector<Student> searchPesel(const size_t& pesel);
+    std::string searchPesel(const std::string& pesel);
     void sortByPesel();
     std::vector<Student> students_;
 

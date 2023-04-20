@@ -49,10 +49,9 @@ int main() {
 
     db.display();
     std::cout << '\n';
-    db.searchSurname("Kowalska");
+    db.searchSurname("Kowalski");
     std::cout << '\n';
-    db.searchPesel(9352315879911);
-    std::cout << '\n';
+    db.searchPesel("1023234567711");
     db.sortByPesel();
     db.display();
     return 0;
