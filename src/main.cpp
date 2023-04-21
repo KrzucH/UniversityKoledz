@@ -53,8 +53,9 @@ int main() {
     std::cout << '\n';
     db.searchPesel("1023234567711");
     db.sortByPesel();
-    db.display();
     db.sortBySurname();
+    db.deleteById(654321);
     db.display();
+    
     return 0;
 }

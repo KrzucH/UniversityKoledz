@@ -40,7 +40,7 @@ std::string Database::searchPesel(const std::string& pesel) {
             std::cout << pesel1 << '\n';
         }
     }
-    if(pesel1 == "") {
+    if (pesel1 == "") {
         std::cout << "Nie ma takiego osoby o danym PESEL w bazie danych.\n";
     }
     return pesel1;
@@ -67,10 +67,22 @@ void Database::sortByPesel() {
         return pesel1 > pesel2;
     });
 }
+
 void Database::sortBySurname() {
-    sort(students_.begin(), students_.end(), [] (auto first, auto second) {
+    sort(students_.begin(), students_.end(), [](auto first, auto second) {
         std::string surname1 = first.getSurname();
         std::string surname2 = second.getSurname();
         return surname1 < surname2;
     });
+}
+
+void Database::deleteById(size_t id) {
+    int i = 0;
+    for(const auto& n : students_) {
+        if(id == n.getId()) {
+            auto it = students_.begin() + i;
+            students_.erase(it);
+        }
+        i++;
+    }
 }

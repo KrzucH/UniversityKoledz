@@ -13,5 +13,6 @@ public:
     std::string searchPesel(const std::string& pesel);
     void sortByPesel();
     void sortBySurname();
+    void deleteById(size_t id);
       
 };
