@@ -14,5 +14,6 @@ public:
     void sortByPesel();
     void sortBySurname();
     void deleteById(size_t id);
+    void Peseltest(std::string pesel);
       
 };

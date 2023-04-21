@@ -1,4 +1,5 @@
 #include "database.hpp"
+#include <array>
 #include <iostream>
 
 void Database::add(const Student& s) {
@@ -78,11 +79,32 @@ void Database::sortBySurname() {
 
 void Database::deleteById(size_t id) {
     int i = 0;
-    for(const auto& n : students_) {
-        if(id == n.getId()) {
+    for (const auto& n : students_) {
+        if (id == n.getId()) {
             auto it = students_.begin() + i;
             students_.erase(it);
         }
         i++;
     }
+}
+
+void Database::Peseltest(std::string pesel) {
+    std::array<size_t, 11> arr1{1, 3, 7, 9, 1, 3, 7, 9, 1, 3, 1};
+    std::array<size_t, 11> arr{};
+    if (pesel[0] == '0') {
+        pesel.erase(pesel.begin());
+
+    } else {
+        for (int i = 0; i <= arr.size() - 1; i++) {
+            arr[i] = pesel[i] - '0';
+            // std::cout << arr[i];
+        }
+        size_t number {};
+        for (int i = 0; i <=arr.size() - 1; i++) {
+            number += arr1[i] * arr[i];            
+        }
+        if(number % 10 == 0){
+            std::cout << "Podałeś dobry Pesel\n";
+        }
+    }   
 }
