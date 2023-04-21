@@ -103,14 +103,11 @@ bool Database::Peseltest(std::string pesel) {
             number += arr1[i] * arr[i];
         }
         if (number % 10 == 0) {
-            std::cout << "Pesel jest poprawny.\n";
             return true;
         } else {
-            std::cout << "Podałeś zły pesel!!\n";
             return false;
         }
     } else {
-        std::cout << "Podałeś zły pesel!!\n";
         return false;
     }
 }

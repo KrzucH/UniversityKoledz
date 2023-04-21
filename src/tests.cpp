@@ -426,62 +426,78 @@ TEST_F(DatabaseTest, DeleteById) {
     EXPECT_EQ(2, content);
 }
 
-// TEST_F(DatabaseTest, PeselTest) {
-//     Student adam{
-//         "Jan",
-//         "Kowalski",
-//         "ul. Lesna 12, 00-100 Warszawa",
-//         882143,
-//         "93070302143",
-//         Gender::Male};
-//     db.add(adam);
+TEST_F(DatabaseTest, PeselTest) {
+    Student adam{
+        "Jan",
+        "Kowalski",
+        "ul. Lesna 12, 00-100 Warszawa",
+        882143,
+        "72011953343",
+        Gender::Male};
+    db.add(adam);
 
-//     Student ewa{
-//         "Ewa",
-//         "Kowalska",
-//         "ul. Lesna 12, 00-100 Warszawa",
-//         735921,
-//         "10272050321",
-//         Gender::Male};
-//     db.add(ewa);
+    Student ewa{
+        "Ewa",
+        "Kowalska",
+        "ul. Lesna 12, 00-100 Warszawa",
+        735921,
+        "99021158692",
+        Gender::Male};
+    db.add(ewa);
 
-//     Student krzysztof{
-//         "Krzysztof",
-//         "Nowak",
-//         "ul. Lesna 12, 00-100 Warszawa",
-//         186421,
-//         "45091309453",
-//         Gender::Male};
-//     db.add(krzysztof);
+    Student krzysztof{
+        "Krzysztof",
+        "Nowak",
+        "ul. Lesna 12, 00-100 Warszawa",
+        186421,
+        "61112192856",
+        Gender::Male};
+    db.add(krzysztof);
 
-//     Student jan{
-//         "Jan",
-//         "Samulski",
-//         "ul. Lesna 12, 00-100 Warszawa",
-//         654321,
-//         "80123009842",
-//         Gender::Male};
-//     db.add(jan);
+    Student jan{
+        "Jan",
+        "Samulski",
+        "ul. Lesna 12, 00-100 Warszawa",
+        654321,
+        "03300747787",
+        Gender::Male};
+    db.add(jan);
 
-//     Student zdzisław{
-//         "Zdzisław",
-//         "Kowalski",
-//         "ul. Lesna 12, 00-100 Warszawa",
-//         236453,
-//         "95040478923",
-//         Gender::Male};
-//     db.add(zdzisław);
+    Student zdzisław{
+        "Zdzisław",
+        "Kowalski",
+        "ul. Lesna 12, 00-100 Warszawa",
+        236453,
+        "89010595928",
+        Gender::Male};
+    db.add(zdzisław);
 
-//     Student marcin{
-//         "Marcin",
-//         "Nowicki",
-//         "ul. Lesna 12, 00-100 Warszawa",
-//         123456,
-//         "06301585831",
-//         Gender::Male};
-//     db.add(marcin);
+    Student marcin{
+        "Marcin",
+        "Nowicki",
+        "ul. Lesna 12, 00-100 Warszawa",
+        123456,
+        "00270441882",
+        Gender::Male};
+    db.add(marcin);
 
-//     db.Peseltest("06301585831");
+    auto content = db.Peseltest("89010595928");
+    auto content1 = db.Peseltest("00270441882");
+    auto content2 = db.Peseltest("61112192856");
+    auto content3 = db.Peseltest("99021158692");
+    auto content4 = db.Peseltest("72011953343");
+    auto content5 = db.Peseltest("89011595928");
+    auto content6 = db.Peseltest("W9010595928");
+    auto content7 = db.Peseltest("9010595928");
+    auto content8 = db.Peseltest("901059592811");
 
-
-// }
+    EXPECT_TRUE(content);
+    EXPECT_TRUE(content1);
+    EXPECT_TRUE(content2);
+    EXPECT_TRUE(content3);
+    EXPECT_TRUE(content4);
+    EXPECT_FALSE(content5);
+    EXPECT_FALSE(content6);
+    EXPECT_FALSE(content7);
+    EXPECT_FALSE(content8);
+}
