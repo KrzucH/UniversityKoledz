@@ -29,7 +29,7 @@ TEST_F(DatabaseTest, DisplayNonEmptDb) {
 
 TEST_F(DatabaseTest, SearchByName) {
     std::vector<Student> Kowalski;
-    // std::vector<
+    std::vector<std::string> vec;
     Student adam{
         "Jan",
         "Kowalski",
@@ -87,14 +87,21 @@ TEST_F(DatabaseTest, SearchByName) {
     Kowalski.push_back(adam);
     Kowalski.push_back(zdzisław);
 
+    auto expected = Kowalski[0].show();
+    auto expected1 = Kowalski[1].show();
+
     auto content = db.searchSurname("Kowalski");
+
     int i = 0;
     for (auto n : content) {
         if (n.show() == Kowalski[i].show()) {
+            vec.push_back(n.show());
             i++;
         }
     }
     EXPECT_EQ(Kowalski.size(), i);
+    EXPECT_EQ(vec[0], expected);
+    EXPECT_EQ(vec[1], expected1);
 }
 TEST_F(DatabaseTest, SearchByPesel) {
     std::string pesel;
