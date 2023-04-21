@@ -56,6 +56,7 @@ int main() {
     db.sortBySurname();
     db.deleteById(654321);
     db.display();
+    db.Peseltest("06070704033");
     db.Peseltest("93070704033");
     
     return 0;

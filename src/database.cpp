@@ -91,20 +91,39 @@ void Database::deleteById(size_t id) {
 void Database::Peseltest(std::string pesel) {
     std::array<size_t, 11> arr1{1, 3, 7, 9, 1, 3, 7, 9, 1, 3, 1};
     std::array<size_t, 11> arr{};
-    if (pesel[0] == '0') {
-        pesel.erase(pesel.begin());
+    if (pesel.size() == 11) {
+        if (std::count_if(pesel.begin(), pesel.end(), [](unsigned char c) { return std::isdigit(c); })) {
+            if (pesel[0] == '0') {
+                for (int i = 1; i <= arr.size() - 1; i++) {
+                    arr[i] = pesel[i] - '0';
+                }
+                size_t number{};
+                for (int i = 0; i <= arr.size() - 1; i++) {
+                    number += arr1[i] * arr[i];
+                }
+                if (number % 10 == 0) {
+                    std::cout << "Pesel jest poprawny.\n";
+                }                
 
+            } else {
+                for (int i = 0; i <= arr.size() - 1; i++) {
+                    arr[i] = pesel[i] - '0';
+                    // std::cout << arr[i];
+                }
+                size_t number{};
+                for (int i = 0; i <= arr.size() - 1; i++) {
+                    number += arr1[i] * arr[i];
+                }
+                if (number % 10 == 0) {
+                    std::cout << "Pesel jest poprawny.\n";
+                }
+            }
+        } else {
+            std::cout << "Pesel nie może zawierać liter!!\n";
+        }
+    } else if (pesel.size() > 11) {
+        std::cout << "Podałeś za dużo cyfr!!\n";
     } else {
-        for (int i = 0; i <= arr.size() - 1; i++) {
-            arr[i] = pesel[i] - '0';
-            // std::cout << arr[i];
-        }
-        size_t number {};
-        for (int i = 0; i <=arr.size() - 1; i++) {
-            number += arr1[i] * arr[i];            
-        }
-        if(number % 10 == 0){
-            std::cout << "Podałeś dobry Pesel\n";
-        }
-    }   
+        std::cout << "Podałeś za mało cyfr!!\n";
+    }
 }
