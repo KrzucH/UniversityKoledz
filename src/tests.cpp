@@ -427,60 +427,7 @@ TEST_F(DatabaseTest, DeleteById) {
 }
 
 TEST_F(DatabaseTest, PeselTest) {
-    Student adam{
-        "Jan",
-        "Kowalski",
-        "ul. Lesna 12, 00-100 Warszawa",
-        882143,
-        "72011953343",
-        Gender::Male};
-    db.add(adam);
-
-    Student ewa{
-        "Ewa",
-        "Kowalska",
-        "ul. Lesna 12, 00-100 Warszawa",
-        735921,
-        "99021158692",
-        Gender::Male};
-    db.add(ewa);
-
-    Student krzysztof{
-        "Krzysztof",
-        "Nowak",
-        "ul. Lesna 12, 00-100 Warszawa",
-        186421,
-        "61112192856",
-        Gender::Male};
-    db.add(krzysztof);
-
-    Student jan{
-        "Jan",
-        "Samulski",
-        "ul. Lesna 12, 00-100 Warszawa",
-        654321,
-        "03300747787",
-        Gender::Male};
-    db.add(jan);
-
-    Student zdzisław{
-        "Zdzisław",
-        "Kowalski",
-        "ul. Lesna 12, 00-100 Warszawa",
-        236453,
-        "89010595928",
-        Gender::Male};
-    db.add(zdzisław);
-
-    Student marcin{
-        "Marcin",
-        "Nowicki",
-        "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "00270441882",
-        Gender::Male};
-    db.add(marcin);
-
+    
     auto content = db.Peseltest("89010595928");
     auto content1 = db.Peseltest("00270441882");
     auto content2 = db.Peseltest("61112192856");
