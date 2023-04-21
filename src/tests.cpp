@@ -425,3 +425,63 @@ TEST_F(DatabaseTest, DeleteById) {
 
     EXPECT_EQ(2, content);
 }
+
+// TEST_F(DatabaseTest, PeselTest) {
+//     Student adam{
+//         "Jan",
+//         "Kowalski",
+//         "ul. Lesna 12, 00-100 Warszawa",
+//         882143,
+//         "93070302143",
+//         Gender::Male};
+//     db.add(adam);
+
+//     Student ewa{
+//         "Ewa",
+//         "Kowalska",
+//         "ul. Lesna 12, 00-100 Warszawa",
+//         735921,
+//         "10272050321",
+//         Gender::Male};
+//     db.add(ewa);
+
+//     Student krzysztof{
+//         "Krzysztof",
+//         "Nowak",
+//         "ul. Lesna 12, 00-100 Warszawa",
+//         186421,
+//         "45091309453",
+//         Gender::Male};
+//     db.add(krzysztof);
+
+//     Student jan{
+//         "Jan",
+//         "Samulski",
+//         "ul. Lesna 12, 00-100 Warszawa",
+//         654321,
+//         "80123009842",
+//         Gender::Male};
+//     db.add(jan);
+
+//     Student zdzisław{
+//         "Zdzisław",
+//         "Kowalski",
+//         "ul. Lesna 12, 00-100 Warszawa",
+//         236453,
+//         "95040478923",
+//         Gender::Male};
+//     db.add(zdzisław);
+
+//     Student marcin{
+//         "Marcin",
+//         "Nowicki",
+//         "ul. Lesna 12, 00-100 Warszawa",
+//         123456,
+//         "06301585831",
+//         Gender::Male};
+//     db.add(marcin);
+
+//     db.Peseltest("06301585831");
+
+
+// }
