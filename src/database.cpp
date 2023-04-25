@@ -3,7 +3,13 @@
 #include <iostream>
 
 void Database::add(const Student& s) {
-    students_.push_back(s);
+    if (Database::Peseltest(s.getPesel()) == true && Database::searchPesel(s.getPesel()) == "") {
+        students_.push_back(s);
+    } else if(Database::Peseltest(s.getPesel()) == false) {
+        std::cout << "Podałeś zły pesel.\n";
+    } else {
+        std::cout << "Student jest już w bazie.\n";
+    }
 }
 
 void Database::display() const {
@@ -21,7 +27,7 @@ std::string Database::show() const {
 std::vector<Student> Database::searchSurname(const std::string& surname) {
     std::vector<Student> vec;
 
-    for (auto&& student : students_) {
+    for (const auto& student : students_) {
         if (surname == student.getSurname()) {
             vec.push_back(student);
             std::cout << vec[vec.size() - 1].show();
@@ -34,15 +40,12 @@ std::vector<Student> Database::searchSurname(const std::string& surname) {
 }
 
 std::string Database::searchPesel(const std::string& pesel) {
-    std::string pesel1;
-    for (auto&& student : students_) {
+    std::string pesel1 {""};
+    for (const auto& student : students_) {
         if (pesel == student.getPesel()) {
             pesel1 = student.show();
-            std::cout << pesel1 << '\n';
+            return pesel1;
         }
-    }
-    if (pesel1 == "") {
-        std::cout << "Nie ma takiego osoby o danym PESEL w bazie danych.\n";
     }
     return pesel1;
 }
