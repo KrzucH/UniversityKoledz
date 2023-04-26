@@ -18,12 +18,12 @@ TEST_F(DatabaseTest, DisplayNonEmptDb) {
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
         123456,
-        "1234567891011",
+        "00270441882",
         Gender::Male};
     db.add(adam);
 
     auto content = db.show();
-    std::string expected = "Jan Kowalski; ul. Lesna 12, 00-100 Warszawa; 123456; 1234567891011; Male \n";
+    std::string expected = "Jan Kowalski; ul. Lesna 12, 00-100 Warszawa; 123456; 00270441882; Male \n";
     EXPECT_EQ(content, expected);
 }
 
@@ -34,8 +34,8 @@ TEST_F(DatabaseTest, SearchByName) {
         "Jan",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "1234567891011",
+        882143,
+        "89010595928",
         Gender::Male};
     db.add(adam);
 
@@ -43,8 +43,8 @@ TEST_F(DatabaseTest, SearchByName) {
         "Ewa",
         "Kowalska",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "1234567891011",
+        735921,
+        "00270441882",
         Gender::Male};
     db.add(ewa);
 
@@ -52,8 +52,8 @@ TEST_F(DatabaseTest, SearchByName) {
         "Krzysztof",
         "Nowak",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "1234567891011",
+        186421,
+        "99021158692",
         Gender::Male};
     db.add(krzysztof);
 
@@ -61,8 +61,8 @@ TEST_F(DatabaseTest, SearchByName) {
         "Jan",
         "Samulski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "1234567891011",
+        654321,
+        "72011953343",
         Gender::Male};
     db.add(jan);
 
@@ -70,8 +70,8 @@ TEST_F(DatabaseTest, SearchByName) {
         "Zdzisław",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "1234567891011",
+        236453,
+        "61112192856",
         Gender::Male};
     db.add(zdzisław);
 
@@ -80,7 +80,7 @@ TEST_F(DatabaseTest, SearchByName) {
         "Nowicki",
         "ul. Lesna 12, 00-100 Warszawa",
         123456,
-        "1234567891011",
+        "02260323723",
         Gender::Male};
     db.add(marcin);
 
@@ -94,7 +94,7 @@ TEST_F(DatabaseTest, SearchByName) {
 
     int i = 0;
     for (auto n : content) {
-        if (n.show() == Kowalski[i].show()) {
+        if (n.getSurname() == Kowalski[i].getSurname()) {
             vec.push_back(n.show());
             i++;
         }
@@ -109,8 +109,8 @@ TEST_F(DatabaseTest, SearchByPesel) {
         "Jan",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "93070302143",
+        882143,
+        "89010595928",
         Gender::Male};
     db.add(adam);
 
@@ -118,8 +118,8 @@ TEST_F(DatabaseTest, SearchByPesel) {
         "Ewa",
         "Kowalska",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "10272050321",
+        735921,
+        "00270441882",
         Gender::Male};
     db.add(ewa);
 
@@ -127,8 +127,8 @@ TEST_F(DatabaseTest, SearchByPesel) {
         "Krzysztof",
         "Nowak",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "45091309453",
+        186421,
+        "99021158692",
         Gender::Male};
     db.add(krzysztof);
 
@@ -136,8 +136,8 @@ TEST_F(DatabaseTest, SearchByPesel) {
         "Jan",
         "Samulski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "80123009842",
+        654321,
+        "72011953343",
         Gender::Male};
     db.add(jan);
 
@@ -145,8 +145,8 @@ TEST_F(DatabaseTest, SearchByPesel) {
         "Zdzisław",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "95040478923",
+        236453,
+        "61112192856",
         Gender::Male};
     db.add(zdzisław);
 
@@ -155,13 +155,13 @@ TEST_F(DatabaseTest, SearchByPesel) {
         "Nowicki",
         "ul. Lesna 12, 00-100 Warszawa",
         123456,
-        "06301585831",
+        "02260323723",
         Gender::Male};
     db.add(marcin);
 
-    auto content = db.searchPesel("06301585831");
-    auto content1 = db.searchPesel("95040478923");
-    auto content2 = db.searchPesel("10272050321");
+    auto content = db.searchPesel("00270441882");
+    auto content1 = db.searchPesel("72011953343");
+    auto content2 = db.searchPesel("02260323723");
 
     bool checker = false;
     for (const auto& n : db.students_) {
@@ -190,12 +190,13 @@ TEST_F(DatabaseTest, SearchByPesel) {
 
 TEST_F(DatabaseTest, SortByPesel) {
     std::vector<std::string> pesel;
+
     Student adam{
         "Jan",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "93070302143",
+        882143,
+        "89010595928",
         Gender::Male};
     db.add(adam);
 
@@ -203,8 +204,8 @@ TEST_F(DatabaseTest, SortByPesel) {
         "Ewa",
         "Kowalska",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "10272050321",
+        735921,
+        "00270441882",
         Gender::Male};
     db.add(ewa);
 
@@ -212,8 +213,8 @@ TEST_F(DatabaseTest, SortByPesel) {
         "Krzysztof",
         "Nowak",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "45091309453",
+        186421,
+        "99021158692",
         Gender::Male};
     db.add(krzysztof);
 
@@ -221,8 +222,8 @@ TEST_F(DatabaseTest, SortByPesel) {
         "Jan",
         "Samulski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "80123009842",
+        654321,
+        "72011953343",
         Gender::Male};
     db.add(jan);
 
@@ -230,8 +231,8 @@ TEST_F(DatabaseTest, SortByPesel) {
         "Zdzisław",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "95040478923",
+        236453,
+        "61112192856",
         Gender::Male};
     db.add(zdzisław);
 
@@ -240,7 +241,7 @@ TEST_F(DatabaseTest, SortByPesel) {
         "Nowicki",
         "ul. Lesna 12, 00-100 Warszawa",
         123456,
-        "06301585831",
+        "02260323723",
         Gender::Male};
     db.add(marcin);
 
@@ -250,12 +251,12 @@ TEST_F(DatabaseTest, SortByPesel) {
         pesel.push_back(n.getPesel());
     }
 
-    EXPECT_EQ("45091309453", pesel[0]);
-    EXPECT_EQ("80123009842", pesel[1]);
-    EXPECT_EQ("93070302143", pesel[2]);
-    EXPECT_EQ("95040478923", pesel[3]);
-    EXPECT_EQ("06301585831", pesel[4]);
-    EXPECT_EQ("10272050321", pesel[5]);
+    EXPECT_EQ("61112192856", pesel[0]);
+    EXPECT_EQ("72011953343", pesel[1]);
+    EXPECT_EQ("89010595928", pesel[2]);
+    EXPECT_EQ("99021158692", pesel[3]);
+    EXPECT_EQ("00270441882", pesel[4]);
+    EXPECT_EQ("02260323723", pesel[5]);
 }
 
 TEST_F(DatabaseTest, SortBySurname) {
@@ -265,8 +266,8 @@ TEST_F(DatabaseTest, SortBySurname) {
         "Jan",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "93070302143",
+        882143,
+        "89010595928",
         Gender::Male};
     db.add(adam);
 
@@ -274,8 +275,8 @@ TEST_F(DatabaseTest, SortBySurname) {
         "Ewa",
         "Kowalska",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "10272050321",
+        735921,
+        "00270441882",
         Gender::Male};
     db.add(ewa);
 
@@ -283,8 +284,8 @@ TEST_F(DatabaseTest, SortBySurname) {
         "Krzysztof",
         "Nowak",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "45091309453",
+        186421,
+        "99021158692",
         Gender::Male};
     db.add(krzysztof);
 
@@ -292,8 +293,8 @@ TEST_F(DatabaseTest, SortBySurname) {
         "Jan",
         "Samulski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "80123009842",
+        654321,
+        "72011953343",
         Gender::Male};
     db.add(jan);
 
@@ -301,8 +302,8 @@ TEST_F(DatabaseTest, SortBySurname) {
         "Zdzisław",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
-        "95040478923",
+        236453,
+        "61112192856",
         Gender::Male};
     db.add(zdzisław);
 
@@ -311,11 +312,11 @@ TEST_F(DatabaseTest, SortBySurname) {
         "Nowicki",
         "ul. Lesna 12, 00-100 Warszawa",
         123456,
-        "06301585831",
+        "02260323723",
         Gender::Male};
     db.add(marcin);
 
-    db.sortBySurname();
+       db.sortBySurname();
 
     for (const auto& n : db.students_) {
         surname.push_back(n.getSurname());
@@ -329,12 +330,13 @@ TEST_F(DatabaseTest, SortBySurname) {
 }
 
 TEST_F(DatabaseTest, DeleteById) {
+
     Student adam{
         "Jan",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
         882143,
-        "93070302143",
+        "89010595928",
         Gender::Male};
     db.add(adam);
 
@@ -343,7 +345,7 @@ TEST_F(DatabaseTest, DeleteById) {
         "Kowalska",
         "ul. Lesna 12, 00-100 Warszawa",
         735921,
-        "10272050321",
+        "00270441882",
         Gender::Male};
     db.add(ewa);
 
@@ -352,7 +354,7 @@ TEST_F(DatabaseTest, DeleteById) {
         "Nowak",
         "ul. Lesna 12, 00-100 Warszawa",
         186421,
-        "45091309453",
+        "99021158692",
         Gender::Male};
     db.add(krzysztof);
 
@@ -361,7 +363,7 @@ TEST_F(DatabaseTest, DeleteById) {
         "Samulski",
         "ul. Lesna 12, 00-100 Warszawa",
         654321,
-        "80123009842",
+        "72011953343",
         Gender::Male};
     db.add(jan);
 
@@ -370,7 +372,7 @@ TEST_F(DatabaseTest, DeleteById) {
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
         236453,
-        "95040478923",
+        "61112192856",
         Gender::Male};
     db.add(zdzisław);
 
@@ -379,9 +381,10 @@ TEST_F(DatabaseTest, DeleteById) {
         "Nowicki",
         "ul. Lesna 12, 00-100 Warszawa",
         123456,
-        "06301585831",
+        "02260323723",
         Gender::Male};
     db.add(marcin);
+  
 
     db.deleteById(123456);
     db.deleteById(236453);
@@ -427,7 +430,6 @@ TEST_F(DatabaseTest, DeleteById) {
 }
 
 TEST_F(DatabaseTest, PeselTest) {
-    
     auto content = db.Peseltest("89010595928");
     auto content1 = db.Peseltest("00270441882");
     auto content2 = db.Peseltest("61112192856");
