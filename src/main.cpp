@@ -61,6 +61,7 @@ int main() {
     db.add(adam1);
     db.add(adam2);
 
+    db.loadDataBaseFromaFile("Baza.txt", db);
     db.display();
     // std::cout << '\n';
     // db.searchSurname("Kowalski");
