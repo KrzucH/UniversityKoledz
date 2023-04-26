@@ -5,7 +5,7 @@
 void Database::add(const Student& s) {
     if (Database::Peseltest(s.getPesel()) == true && Database::searchPesel(s.getPesel()) == "") {
         students_.push_back(s);
-    } else if(Database::Peseltest(s.getPesel()) == false) {
+    } else if (Database::Peseltest(s.getPesel()) == false) {
         std::cout << "Podałeś zły pesel.\n";
     } else {
         std::cout << "Student jest już w bazie.\n";
@@ -40,7 +40,7 @@ std::vector<Student> Database::searchSurname(const std::string& surname) {
 }
 
 std::string Database::searchPesel(const std::string& pesel) {
-    std::string pesel1 {""};
+    std::string pesel1{""};
     for (const auto& student : students_) {
         if (pesel == student.getPesel()) {
             pesel1 = student.show();
@@ -115,7 +115,8 @@ bool Database::Peseltest(std::string pesel) {
     }
 }
 
-void Database::loadDataBaseFromaFile(const std::string& baza_txt, Database& baza) {{
+void Database::loadDataBaseFromaFile(const std::string& baza_txt, Database& baza) {
+    {
         std::ifstream str(baza_txt);
         std::string name;
         std::string surname;
@@ -140,5 +141,17 @@ void Database::loadDataBaseFromaFile(const std::string& baza_txt, Database& baza
         Student st(name, surname, address, index, pesel, gender);
         baza.add(st);
     }
-    
+}
+
+void Database::saveDataBaseToFile(const Database& baza) {
+    std::fstream baza_txt;
+    baza_txt.open("CalaBaza.txt", std::ios::out);
+    if(!baza_txt) {
+        std::cout << "Blad otwarcia\n";
+        exit(1);
+    }
+    for (const auto& n : baza.students_) {
+        baza_txt << n.show();
+    }
+    baza_txt.close();
 }

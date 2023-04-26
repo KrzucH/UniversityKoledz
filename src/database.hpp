@@ -17,4 +17,5 @@ public:
     void deleteById(size_t id);
     bool Peseltest(std::string pesel);
     void loadDataBaseFromaFile(const std::string& baza_txt, Database& baza);
+    void saveDataBaseToFile(const Database& baza);
 };

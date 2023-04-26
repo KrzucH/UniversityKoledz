@@ -63,6 +63,7 @@ int main() {
 
     db.loadDataBaseFromaFile("Baza.txt", db);
     db.display();
+    db.saveDataBaseToFile(db);
     // std::cout << '\n';
     // db.searchSurname("Kowalski");
     // std::cout << '\n';
