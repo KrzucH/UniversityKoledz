@@ -1,6 +1,8 @@
 #include <iostream>
 #include "database.hpp"
 #include "student.hpp"
+#include "employee.hpp"
+#include "person.hpp"
 
 int main() {
     Database db;
@@ -8,62 +10,62 @@ int main() {
         "Adam",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
         "89010595928",
-        Gender::Male};
+        Gender::Male,
+        "123456"};
     Student jacek{
         "Jacek",
         "Sztuka",
         "ul. Wesola 42, 13-100 Szczecin",
-        654321,
         "00270441882",
-        Gender::Male};
+        Gender::Male,
+        "654321"};
     Student agnieszka{
         "Agnieszka",
         "Kowalska",
         "ul. Lesna 12, 00-100 Warszawa",
-        832439,
         "99021158692",
-        Gender::Female};
-    Student mariusz{
+        Gender::Female,
+        "832439"};
+    Employee mariusz{
         "Mariusz",
         "Kowalski",
         "ul. Zimna 22, 11-100 Krakow",
-        657433,
         "72011953343",
-        Gender::Male};
+        Gender::Male,
+        1657};
     Student jan{
         "Jan",
         "Nowak",
         "ul. Szkolna 15, 12-100 Poznan",
-        192534,
         "61112192856",
-        Gender::Male};
-    Student adam1{
+        Gender::Male,
+        "192534"};
+    Employee janusz{
         "Adam",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
         "89010595928",
-        Gender::Male};
-    Student adam2{
+        Gender::Male,
+        3456};
+    Employee ewa{
         "Adam",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
         "89010595928",
-        Gender::Male};
-    db.add(adam);
-    db.add(agnieszka);
-    db.add(mariusz);
-    db.add(jan);
-    db.add(jacek);
-    db.add(adam1);
-    db.add(adam2);
+        Gender::Male,
+        2500};
+    db.addStudent(adam);
+    db.addStudent(agnieszka);
+    db.addEmpolyee(mariusz);
+    db.addStudent(jan);
+    db.addStudent(jacek);
+    db.addEmpolyee(janusz);
+    db.addEmpolyee(ewa);
 
-    db.loadDataBaseFromaFile("Baza.txt", db);
+    // db.loadDataBaseFromaFile("Baza.txt", db);
     db.display();
-    db.saveDataBaseToFile(db);
+    // db.saveDataBaseToFile(db);
     // std::cout << '\n';
     // db.searchSurname("Kowalski");
     // std::cout << '\n';

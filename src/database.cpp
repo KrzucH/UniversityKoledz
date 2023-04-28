@@ -2,9 +2,9 @@
 #include <array>
 #include <iostream>
 
-void Database::add(const Student& s) {
+void Database::addStudent(const Student& s) {
     if (Database::Peseltest(s.getPesel()) == true && Database::searchPesel(s.getPesel()) == "") {
-        students_.push_back(s);
+        db_.push_back(std::make_shared<Student> (s));
     } else if (Database::Peseltest(s.getPesel()) == false) {
         std::cout << "Podałeś zły pesel.\n";
     } else {
@@ -12,15 +12,27 @@ void Database::add(const Student& s) {
     }
 }
 
+void Database::addEmpolyee(const Employee& e) {
+      if (Database::Peseltest(e.getPesel()) == true && Database::searchPesel(e.getPesel()) == "") {
+        db_.push_back(std::make_shared<Employee> (e));
+    } else if (Database::Peseltest(e.getPesel()) == false) {
+        std::cout << "Podałeś zły pesel.\n";
+    } else {
+        std::cout << "Pracownik jest już w bazie.\n";
+    }
+}
+
+
 void Database::display() const {
     std::cout << show();
 }
 
 std::string Database::show() const {
     std::string result = "";
-    for (auto&& student : students_) {
-        result += student.show();
+    for (const auto& person : db_) {
+        result += person -> show();
     }
+   
     return result;
 }
 
@@ -80,10 +92,10 @@ void Database::sortBySurname() {
     });
 }
 
-void Database::deleteById(size_t id) {
+void Database::deleteById(std::string id) {
     int i = 0;
     for (const auto& n : students_) {
-        if (id == n.getId()) {
+        if (id == n.getID()) {
             auto it = students_.begin() + i;
             students_.erase(it);
         }
@@ -124,7 +136,7 @@ void Database::loadDataBaseFromaFile(const std::string& baza_txt, Database& baza
         std::string pesel;
         std::string gender1;
         Gender gender;
-        size_t index;
+        std::string index;
 
         str >> name >> surname >> address >> index >> pesel >> gender1;
         if (gender1 == "Male") {
@@ -138,8 +150,8 @@ void Database::loadDataBaseFromaFile(const std::string& baza_txt, Database& baza
             }
         }
 
-        Student st(name, surname, address, index, pesel, gender);
-        baza.add(st);
+        Student st(name, surname, address, pesel, gender, index);
+        baza.addStudent(st);
     }
 }
 
