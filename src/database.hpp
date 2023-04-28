@@ -14,7 +14,7 @@ public:
     void addEmpolyee(const Employee& e);
     void display() const;
     std::string show() const;
-    std::vector<Student> searchSurname(const std::string& surname);
+    std::vector<std::shared_ptr<Person>> searchSurname(const std::string& surname);
     std::string searchPesel(const std::string& pesel);
     void sortByPesel();
     void sortBySurname();

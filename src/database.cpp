@@ -4,7 +4,7 @@
 
 void Database::addStudent(const Student& s) {
     if (Database::Peseltest(s.getPesel()) == true && Database::searchPesel(s.getPesel()) == "") {
-        db_.push_back(std::make_shared<Student> (s));
+        db_.push_back(std::make_shared<Student>(s));
     } else if (Database::Peseltest(s.getPesel()) == false) {
         std::cout << "Podałeś zły pesel.\n";
     } else {
@@ -13,15 +13,14 @@ void Database::addStudent(const Student& s) {
 }
 
 void Database::addEmpolyee(const Employee& e) {
-      if (Database::Peseltest(e.getPesel()) == true && Database::searchPesel(e.getPesel()) == "") {
-        db_.push_back(std::make_shared<Employee> (e));
+    if (Database::Peseltest(e.getPesel()) == true && Database::searchPesel(e.getPesel()) == "") {
+        db_.push_back(std::make_shared<Employee>(e));
     } else if (Database::Peseltest(e.getPesel()) == false) {
         std::cout << "Podałeś zły pesel.\n";
     } else {
         std::cout << "Pracownik jest już w bazie.\n";
     }
 }
-
 
 void Database::display() const {
     std::cout << show();
@@ -30,32 +29,29 @@ void Database::display() const {
 std::string Database::show() const {
     std::string result = "";
     for (const auto& person : db_) {
-        result += person -> show();
+        result += person->show();
     }
-   
+
     return result;
 }
 
-std::vector<Student> Database::searchSurname(const std::string& surname) {
-    std::vector<Student> vec;
+std::vector<std::shared_ptr<Person>> Database::searchSurname(const std::string& surname) {
+    std::vector<std::shared_ptr<Person>> vec;
 
-    for (const auto& student : students_) {
-        if (surname == student.getSurname()) {
-            vec.push_back(student);
-            std::cout << vec[vec.size() - 1].show();
+    for (const auto& person : db_) {
+        if (surname == person->getSurname()) {
+            vec.push_back(person);
+            std::cout << vec[vec.size() - 1]->show();
         }
-    }
-    if (vec.size() == 0) {
-        std::cout << "Nie ma takiej osoby o danym NAZWISKU w bazie danych.";
     }
     return vec;
 }
 
 std::string Database::searchPesel(const std::string& pesel) {
     std::string pesel1{""};
-    for (const auto& student : students_) {
-        if (pesel == student.getPesel()) {
-            pesel1 = student.show();
+    for (const auto& person : db_) {
+        if (pesel == person->getPesel()) {
+            pesel1 = person->show();
             return pesel1;
         }
     }
@@ -63,9 +59,9 @@ std::string Database::searchPesel(const std::string& pesel) {
 }
 
 void Database::sortByPesel() {
-    sort(students_.begin(), students_.end(), [](auto first, auto second) {
-        std::string pesel1 = first.getPesel();
-        std::string pesel2 = second.getPesel();
+    sort(db_.begin(), db_.end(), [](auto first, auto second) {
+        std::string pesel1 = first->getPesel();
+        std::string pesel2 = second->getPesel();
 
         if ((pesel1[0] == '0') || (pesel1[0] == '1')) {
             pesel1 += 1;
@@ -85,22 +81,18 @@ void Database::sortByPesel() {
 }
 
 void Database::sortBySurname() {
-    sort(students_.begin(), students_.end(), [](auto first, auto second) {
-        std::string surname1 = first.getSurname();
-        std::string surname2 = second.getSurname();
+    sort(db_.begin(), db_.end(), [](auto first, auto second) {
+        std::string surname1 = first->getSurname();
+        std::string surname2 = second->getSurname();
         return surname1 < surname2;
     });
 }
 
 void Database::deleteById(std::string id) {
-    int i = 0;
-    for (const auto& n : students_) {
-        if (id == n.getID()) {
-            auto it = students_.begin() + i;
-            students_.erase(it);
-        }
-        i++;
-    }
+    db_.erase(std::remove_if(db_.begin(), db_.end(), [id](auto Id_) {
+        std::string id1 = Id_->getID();
+        return id == id1;
+    }));
 }
 
 bool Database::Peseltest(std::string pesel) {
@@ -137,33 +129,52 @@ void Database::loadDataBaseFromaFile(const std::string& baza_txt, Database& baza
         std::string gender1;
         Gender gender;
         std::string index;
+        std::string checker;
+        size_t salary;
 
-        str >> name >> surname >> address >> index >> pesel >> gender1;
-        if (gender1 == "Male") {
-            gender = Gender::Male;
-        } else {
-            gender = Gender::Female;
-        }
-        for (auto& n : address) {
-            if (n == '_') {
-                n = ' ';
+        while (str >> checker) {
+            if (checker == "S" || checker == "s") {
+                str >> name >> surname >> address >> index >> pesel >> gender1;
+                if (gender1 == "Male") {
+                    gender = Gender::Male;
+                } else {
+                    gender = Gender::Female;
+                }
+                for (auto& n : address) {
+                    if (n == '_') {
+                        n = ' ';
+                    }
+                }
+                Student st(name, surname, address, pesel, gender, index);
+                baza.addStudent(st);
+            } else {
+                str >> name >> surname >> address >> salary >> pesel >> gender1;
+                if (gender1 == "Male") {
+                    gender = Gender::Male;
+                } else {
+                    gender = Gender::Female;
+                }
+                for (auto& n : address) {
+                    if (n == '_') {
+                        n = ' ';
+                    }
+                }
+                Employee em(name, surname, address, pesel, gender, salary);
+                baza.addEmpolyee(em);
             }
         }
-
-        Student st(name, surname, address, pesel, gender, index);
-        baza.addStudent(st);
     }
 }
 
 void Database::saveDataBaseToFile(const Database& baza) {
     std::fstream baza_txt;
     baza_txt.open("CalaBaza.txt", std::ios::out);
-    if(!baza_txt) {
+    if (!baza_txt) {
         std::cout << "Blad otwarcia\n";
         exit(1);
     }
-    for (const auto& n : baza.students_) {
-        baza_txt << n.show();
+    for (const auto& n : baza.db_) {
+        baza_txt << n->show();
     }
     baza_txt.close();
 }

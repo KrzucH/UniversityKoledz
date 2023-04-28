@@ -17,171 +17,175 @@ TEST_F(DatabaseTest, DisplayNonEmptDb) {
         "Jan",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
         "00270441882",
-        Gender::Male};
-    db.add(adam);
+        Gender::Male,
+        "123456"};
+    db.addStudent(adam);
 
     auto content = db.show();
-    std::string expected = "Jan Kowalski; ul. Lesna 12, 00-100 Warszawa; 123456; 00270441882; Male \n";
+    std::string expected = "Jan; Kowalski; ul. Lesna 12, 00-100 Warszawa; 123456; 00270441882; 0; Male \n";
     EXPECT_EQ(content, expected);
 }
 
 TEST_F(DatabaseTest, SearchByName) {
-    std::vector<Student> Kowalski;
-    std::vector<std::string> vec;
+    std::vector<std::shared_ptr<Person>> Kowalski;
+    std::vector<std::shared_ptr<Person>> vec;
+
     Student adam{
         "Jan",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        882143,
         "89010595928",
-        Gender::Male};
-    db.add(adam);
+        Gender::Male,
+        "882143"};
+    db.addStudent(adam);
 
     Student ewa{
         "Ewa",
         "Kowalska",
         "ul. Lesna 12, 00-100 Warszawa",
-        735921,
         "00270441882",
-        Gender::Male};
-    db.add(ewa);
+        Gender::Male,
+        "735921"};
+    db.addStudent(ewa);
 
-    Student krzysztof{
+    Employee krzysztof{
         "Krzysztof",
         "Nowak",
         "ul. Lesna 12, 00-100 Warszawa",
-        186421,
         "99021158692",
-        Gender::Male};
-    db.add(krzysztof);
+        Gender::Male,
+        1864};
+    db.addEmpolyee(krzysztof);
 
     Student jan{
         "Jan",
         "Samulski",
         "ul. Lesna 12, 00-100 Warszawa",
-        654321,
         "72011953343",
-        Gender::Male};
-    db.add(jan);
+        Gender::Male,
+        "654321"};
+    db.addStudent(jan);
 
-    Student zdzisław{
-        "Zdzisław",
+    Employee zdzislaw{
+        "Zdzislaw",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        236453,
         "61112192856",
-        Gender::Male};
-    db.add(zdzisław);
+        Gender::Male,
+        2364};
+    db.addEmpolyee(zdzislaw);
 
     Student marcin{
         "Marcin",
         "Nowicki",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
         "02260323723",
-        Gender::Male};
-    db.add(marcin);
+        Gender::Male,
+        "123456"};
+    db.addStudent(marcin);
 
-    Kowalski.push_back(adam);
-    Kowalski.push_back(zdzisław);
+    Kowalski.push_back(std::make_shared<Student> (adam));
+    Kowalski.push_back(std::make_shared<Employee> (zdzislaw));
 
-    auto expected = Kowalski[0].show();
-    auto expected1 = Kowalski[1].show();
+    auto expected = Kowalski[0]->show();
+    auto expected1 = Kowalski[1]->show();
+
+    
 
     auto content = db.searchSurname("Kowalski");
 
     int i = 0;
     for (auto n : content) {
-        if (n.getSurname() == Kowalski[i].getSurname()) {
-            vec.push_back(n.show());
+        if (n -> getSurname() == Kowalski[i]->getSurname()) {
+            vec.push_back(n);
             i++;
         }
     }
     EXPECT_EQ(Kowalski.size(), i);
-    EXPECT_EQ(vec[0], expected);
-    EXPECT_EQ(vec[1], expected1);
+    EXPECT_EQ(vec[0]->show(), expected);
+    EXPECT_EQ(vec[1]->show(), expected1);
 }
 TEST_F(DatabaseTest, SearchByPesel) {
     std::string pesel;
+
     Student adam{
         "Jan",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        882143,
         "89010595928",
-        Gender::Male};
-    db.add(adam);
+        Gender::Male,
+        "882143"};
+    db.addStudent(adam);
 
     Student ewa{
         "Ewa",
         "Kowalska",
         "ul. Lesna 12, 00-100 Warszawa",
-        735921,
         "00270441882",
-        Gender::Male};
-    db.add(ewa);
+        Gender::Male,
+        "735921"};
+    db.addStudent(ewa);
 
-    Student krzysztof{
+    Employee krzysztof{
         "Krzysztof",
         "Nowak",
         "ul. Lesna 12, 00-100 Warszawa",
-        186421,
         "99021158692",
-        Gender::Male};
-    db.add(krzysztof);
+        Gender::Male,
+        1864};
+    db.addEmpolyee(krzysztof);
 
     Student jan{
         "Jan",
         "Samulski",
         "ul. Lesna 12, 00-100 Warszawa",
-        654321,
         "72011953343",
-        Gender::Male};
-    db.add(jan);
+        Gender::Male,
+        "654321"};
+    db.addStudent(jan);
 
-    Student zdzisław{
+    Employee zdzisław{
         "Zdzisław",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        236453,
         "61112192856",
-        Gender::Male};
-    db.add(zdzisław);
+        Gender::Male,
+        2364};
+    db.addEmpolyee(zdzisław);
 
     Student marcin{
         "Marcin",
         "Nowicki",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
         "02260323723",
-        Gender::Male};
-    db.add(marcin);
+        Gender::Male,
+        "123456"};
+    db.addStudent(marcin);
 
     auto content = db.searchPesel("00270441882");
     auto content1 = db.searchPesel("72011953343");
     auto content2 = db.searchPesel("02260323723");
 
     bool checker = false;
-    for (const auto& n : db.students_) {
-        if (content == n.show()) {
+    for (const auto& n : db.db_) {
+        if (content == n->show()) {
             checker = true;
         }
     }
     EXPECT_TRUE(checker);
 
     checker = false;
-    for (const auto& n : db.students_) {
-        if (content1 == n.show()) {
+    for (const auto& n : db.db_) {
+        if (content1 == n->show()) {
             checker = true;
         }
     }
     EXPECT_TRUE(checker);
 
     checker = false;
-    for (const auto& n : db.students_) {
-        if (content2 == n.show()) {
+    for (const auto& n : db.db_) {
+        if (content2 == n->show()) {
             checker = true;
         }
     }
@@ -195,60 +199,60 @@ TEST_F(DatabaseTest, SortByPesel) {
         "Jan",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        882143,
         "89010595928",
-        Gender::Male};
-    db.add(adam);
+        Gender::Male,
+        "882143"};
+    db.addStudent(adam);
 
     Student ewa{
         "Ewa",
         "Kowalska",
         "ul. Lesna 12, 00-100 Warszawa",
-        735921,
         "00270441882",
-        Gender::Male};
-    db.add(ewa);
+        Gender::Male,
+        "735921"};
+    db.addStudent(ewa);
 
-    Student krzysztof{
+    Employee krzysztof{
         "Krzysztof",
         "Nowak",
         "ul. Lesna 12, 00-100 Warszawa",
-        186421,
         "99021158692",
-        Gender::Male};
-    db.add(krzysztof);
+        Gender::Male,
+        1864};
+    db.addEmpolyee(krzysztof);
 
     Student jan{
         "Jan",
         "Samulski",
         "ul. Lesna 12, 00-100 Warszawa",
-        654321,
         "72011953343",
-        Gender::Male};
-    db.add(jan);
+        Gender::Male,
+        "654321"};
+    db.addStudent(jan);
 
-    Student zdzisław{
+    Employee zdzisław{
         "Zdzisław",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        236453,
         "61112192856",
-        Gender::Male};
-    db.add(zdzisław);
+        Gender::Male,
+        2364};
+    db.addEmpolyee(zdzisław);
 
     Student marcin{
         "Marcin",
         "Nowicki",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
         "02260323723",
-        Gender::Male};
-    db.add(marcin);
+        Gender::Male,
+        "123456"};
+    db.addStudent(marcin);
 
     db.sortByPesel();
 
-    for (const auto& n : db.students_) {
-        pesel.push_back(n.getPesel());
+    for (const auto& n : db.db_) {
+        pesel.push_back(n->getPesel());
     }
 
     EXPECT_EQ("61112192856", pesel[0]);
@@ -266,60 +270,60 @@ TEST_F(DatabaseTest, SortBySurname) {
         "Jan",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        882143,
         "89010595928",
-        Gender::Male};
-    db.add(adam);
+        Gender::Male,
+        "882143"};
+    db.addStudent(adam);
 
     Student ewa{
         "Ewa",
         "Kowalska",
         "ul. Lesna 12, 00-100 Warszawa",
-        735921,
         "00270441882",
-        Gender::Male};
-    db.add(ewa);
+        Gender::Male,
+        "735921"};
+    db.addStudent(ewa);
 
-    Student krzysztof{
+    Employee krzysztof{
         "Krzysztof",
         "Nowak",
         "ul. Lesna 12, 00-100 Warszawa",
-        186421,
         "99021158692",
-        Gender::Male};
-    db.add(krzysztof);
+        Gender::Male,
+        1864};
+    db.addEmpolyee(krzysztof);
 
     Student jan{
         "Jan",
         "Samulski",
         "ul. Lesna 12, 00-100 Warszawa",
-        654321,
         "72011953343",
-        Gender::Male};
-    db.add(jan);
+        Gender::Male,
+        "654321"};
+    db.addStudent(jan);
 
-    Student zdzisław{
+    Employee zdzisław{
         "Zdzisław",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        236453,
         "61112192856",
-        Gender::Male};
-    db.add(zdzisław);
+        Gender::Male,
+        2364};
+    db.addEmpolyee(zdzisław);
 
     Student marcin{
         "Marcin",
         "Nowicki",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
         "02260323723",
-        Gender::Male};
-    db.add(marcin);
+        Gender::Male,
+        "123456"};
+    db.addStudent(marcin);
 
-       db.sortBySurname();
+    db.sortBySurname();
 
-    for (const auto& n : db.students_) {
-        surname.push_back(n.getSurname());
+    for (const auto& n : db.db_) {
+        surname.push_back(n -> getSurname());
     }
     EXPECT_EQ("Kowalska", surname[0]);
     EXPECT_EQ("Kowalski", surname[1]);
@@ -335,67 +339,67 @@ TEST_F(DatabaseTest, DeleteById) {
         "Jan",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        882143,
         "89010595928",
-        Gender::Male};
-    db.add(adam);
+        Gender::Male,
+        "882143"};
+    db.addStudent(adam);
 
     Student ewa{
         "Ewa",
         "Kowalska",
         "ul. Lesna 12, 00-100 Warszawa",
-        735921,
         "00270441882",
-        Gender::Male};
-    db.add(ewa);
+        Gender::Male,
+        "735921"};
+    db.addStudent(ewa);
 
-    Student krzysztof{
+    Employee krzysztof{
         "Krzysztof",
         "Nowak",
         "ul. Lesna 12, 00-100 Warszawa",
-        186421,
         "99021158692",
-        Gender::Male};
-    db.add(krzysztof);
+        Gender::Male,
+        1864};
+    db.addEmpolyee(krzysztof);
 
     Student jan{
         "Jan",
         "Samulski",
         "ul. Lesna 12, 00-100 Warszawa",
-        654321,
         "72011953343",
-        Gender::Male};
-    db.add(jan);
+        Gender::Male,
+        "654321"};
+    db.addStudent(jan);
 
-    Student zdzisław{
+    Employee zdzisław{
         "Zdzisław",
         "Kowalski",
         "ul. Lesna 12, 00-100 Warszawa",
-        236453,
         "61112192856",
-        Gender::Male};
-    db.add(zdzisław);
+        Gender::Male,
+        2364};
+    db.addEmpolyee(zdzisław);
 
     Student marcin{
         "Marcin",
         "Nowicki",
         "ul. Lesna 12, 00-100 Warszawa",
-        123456,
         "02260323723",
-        Gender::Male};
-    db.add(marcin);
-  
+        Gender::Male,
+        "123456"};
+    db.addStudent(marcin);
+ 
 
-    db.deleteById(123456);
-    db.deleteById(236453);
-    db.deleteById(882143);
-    db.deleteById(186421);
+    db.deleteById("123456");
+    db.deleteById("735921");
+    db.deleteById("882143");
+    db.deleteById("654321");
 
-    auto content = db.students_.size();
+    auto content = db.db_.size();
 
     bool checker = true;
-    for (const auto& n : db.students_) {
-        if (123456 == n.getId()) {
+    for (const auto& n : db.db_) {
+        if ("123456" == n -> getID()) {
             checker = false;
         }
     }
@@ -403,24 +407,24 @@ TEST_F(DatabaseTest, DeleteById) {
     EXPECT_TRUE(checker);
 
     checker = true;
-    for (const auto& n : db.students_) {
-        if (236453 == n.getId()) {
+    for (const auto& n : db.db_) {
+        if ("236453" == n -> getID()) {
             checker = false;
         }
     }
     EXPECT_TRUE(checker);
 
     checker = true;
-    for (const auto& n : db.students_) {
-        if (882143 == n.getId()) {
+    for (const auto& n : db.db_) {
+        if ("882143" == n -> getID()) {
             checker = false;
         }
     }
     EXPECT_TRUE(checker);
 
     checker = true;
-    for (const auto& n : db.students_) {
-        if (186421 == n.getId()) {
+    for (const auto& n : db.db_) {
+        if ("186421" == n -> getID()) {
             checker = false;
         }
     }
