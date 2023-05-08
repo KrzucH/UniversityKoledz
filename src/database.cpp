@@ -180,7 +180,7 @@ void Database::saveDataBaseToFile(const Database& baza) {
     baza_txt.close();
 }
 
-size_t Database::Gendergene() {
+size_t Database::geneGender() {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distrib(0, 1);
@@ -190,7 +190,7 @@ size_t Database::Gendergene() {
 }
 
 Student Database::geneStudent() {
-    if (Gendergene() == 1) {
+    if (geneGender() == 1) {
         Student student{geneMaleName(), geneMaleSurname(), geneAdress(), geneMalePesel(), Gender::Male, geneIndex()};
         addStudent(student);
         return student;
@@ -202,7 +202,7 @@ Student Database::geneStudent() {
 }
 
 Employee Database::geneEmployee() {
-    if (Gendergene() == 1) {
+    if (geneGender() == 1) {
         Employee employee{geneMaleName(), geneMaleSurname(), geneAdress(), geneMalePesel(), Gender::Male, geneSalary()};
         addEmpolyee(employee);
         return employee;
@@ -299,11 +299,27 @@ std::string Database::geneIndex() {
 }
 
 size_t Database::geneSalary() {
-    
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distrib(1000, 10000);
     size_t salary = distrib(gen);
 
+    return salary;
+}
+
+size_t Database::modifySalary(std::string pesel) {
+    size_t salary{0};
+    if (Peseltest(pesel) == true) {
+        for (auto n : db_) {
+            if (n->getPesel() == pesel) {
+                if (n->getID() == "No Index") {
+                    std::cout << "Podaj zarobki dla " << n->getName() << " " << n -> getSurname() << " o numrze PESEL " << n -> getPesel() << ": "   ;
+                    std::cin >> salary;
+                    n->setSala(salary);
+                    return salary;
+                }
+            }
+        }
+    }
     return salary;
 }

@@ -27,7 +27,7 @@ public:
     Student geneStudent();
     Employee geneEmployee();
 
-    size_t Gendergene();
+    size_t geneGender();
     std::string geneMaleName();
     std::string geneFemaleName();
     std::string geneMaleSurname();
@@ -37,7 +37,8 @@ public:
     std::string geneAdress();
     std::string geneIndex();
     size_t geneSalary();
-
+    
+    size_t modifySalary(std::string pesel);
     
 
 
