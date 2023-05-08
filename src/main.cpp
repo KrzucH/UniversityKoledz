@@ -63,20 +63,25 @@ int main() {
     db.addEmpolyee(janusz);
     db.addEmpolyee(ewa);
 
-    db.loadDataBaseFromaFile("Baza.txt", db);
-    db.display();
-    std::cout <<'\n';
-    db.show();
-    // std::cout << "\n";
-    db.saveDataBaseToFile(db);
+    // db.loadDataBaseFromaFile("Baza.txt", db);
+    // db.display();
+    // std::cout <<'\n';
+    // db.show();
+    // // std::cout << "\n";
+    // db.saveDataBaseToFile(db);
+    // // std::cout << '\n';
+    // db.searchSurname("Kowalski");
     // std::cout << '\n';
-    db.searchSurname("Kowalski");
-    std::cout << '\n';
-    std::cout << db.searchPesel("89010595928");
-    db.sortByPesel();
-    db.sortBySurname();
-    db.deleteById("654321");
-    std::cout << '\n';
+    // std::cout << db.searchPesel("89010595928");
+    // db.sortByPesel();
+    // db.sortBySurname();
+    // db.deleteById("654321");
+    // std::cout << '\n';
+    db.geneEmployee();
+    db.geneEmployee();
+    db.geneEmployee();
+    db.geneEmployee();
+    
     db.display();
      return 0;
 }
