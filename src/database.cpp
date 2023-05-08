@@ -313,7 +313,7 @@ size_t Database::modifySalary(std::string pesel) {
         for (auto n : db_) {
             if (n->getPesel() == pesel) {
                 if (n->getID() == "No Index") {
-                    std::cout << "Podaj zarobki dla " << n->getName() << " " << n -> getSurname() << " o numrze PESEL " << n -> getPesel() << ": "   ;
+                    std::cout << "Podaj zarobki dla " << n->getName() << " " << n->getSurname() << " o numrze PESEL " << n->getPesel() << ": ";
                     std::cin >> salary;
                     n->setSala(salary);
                     return salary;
@@ -322,4 +322,12 @@ size_t Database::modifySalary(std::string pesel) {
         }
     }
     return salary;
+}
+
+void Database::sortbySalary() {
+    sort(db_.begin(), db_.end(), [](auto first, auto second) {
+        std::string salary1 = std::to_string(first->getSala());
+        std::string salary2 = std::to_string(second->getSala());
+        return salary1 > salary2;
+    });
 }

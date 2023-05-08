@@ -77,7 +77,15 @@ int main() {
     // db.sortBySurname();
     // db.deleteById("654321");
     // std::cout << '\n';
-    db.modifySalary("8901059528");
+    db.geneEmployee();
+    db.geneEmployee();
+    db.geneStudent();
+    db.geneEmployee();
+    db.geneStudent();
+    db.geneEmployee();  
+
+    db.sortbySalary();
+
     
     db.display();
      return 0;

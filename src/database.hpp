@@ -39,7 +39,7 @@ public:
     size_t geneSalary();
     
     size_t modifySalary(std::string pesel);
+
+    void sortbySalary();
     
-
-
 };
