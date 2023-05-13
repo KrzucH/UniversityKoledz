@@ -96,7 +96,7 @@ void Database::sortBySurname() {
     });
 }
 
-void Database::deleteById(std::string id) {
+void Database::deleteById(const std::string& id) {
     db_.erase(std::remove_if(db_.begin(), db_.end(), [id](auto ID) {
                   std::string index = ID->getID();
                   return id == index;
@@ -104,7 +104,7 @@ void Database::deleteById(std::string id) {
               db_.end());
 }
 
-bool Database::Peseltest(std::string pesel) {
+bool Database::Peseltest(const std::string& pesel) {
     std::array<size_t, 11> arr1{1, 3, 7, 9, 1, 3, 7, 9, 1, 3, 1};
     std::array<size_t, 11> arr{};
 
@@ -128,7 +128,7 @@ bool Database::Peseltest(std::string pesel) {
     }
 }
 
-void Database::loadDataBaseFromaFile(const std::string& baza_txt, Database& baza) {
+void Database::loadDataBaseFromaFile(const std::string& baza_txt) {
     {
         std::ifstream str(baza_txt);
         std::string name;
@@ -155,7 +155,7 @@ void Database::loadDataBaseFromaFile(const std::string& baza_txt, Database& baza
                     }
                 }
                 Student st(name, surname, address, pesel, gender, index);
-                baza.addStudent(st);
+                addStudent(st);
             } else {
                 str >> name >> surname >> address >> salary >> pesel >> gender1;
                 if (gender1 == "Male") {
@@ -169,21 +169,21 @@ void Database::loadDataBaseFromaFile(const std::string& baza_txt, Database& baza
                     }
                 }
                 Employee em(name, surname, address, pesel, gender, salary);
-                baza.addEmpolyee(em);
+                addEmpolyee(em);
             }
         }
     }
 }
 
-void Database::saveDataBaseToFile(const Database& baza) {
+void Database::saveDataBaseToFile() {
     std::fstream baza_txt;
     baza_txt.open("CalaBaza.txt", std::ios::out);
     if (!baza_txt) {
         std::cout << "Blad otwarcia\n";
         exit(1);
     }
-    for (const auto& n : baza.db_) {
-        baza_txt << n->show();
+    for (const auto& n : db_) {
+        baza_txt << n->show();        
     }
     baza_txt.close();
 }
@@ -221,8 +221,8 @@ Employee Database::geneEmployee() {
     }
 }
 
-std::string Database::geneMaleName() {
-    std::array<std::string, 10> Mnames{"Artur", "Damian", "Paweł", "Rafał", "Dominik", "Józef", "Kamil", "Robert", "Jan", "Marek"};
+std::string Database::geneMaleName() const {
+    std::array<std::string, 10> Mnames{"Artur", "Damian", "Pawel", "Rafal", "Dominik", "Jozef", "Kamil", "Robert", "Jan", "Marek"};
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distrib(0, 9);
@@ -230,7 +230,7 @@ std::string Database::geneMaleName() {
     return Mnames[random_index];
 }
 
-std::string Database::geneFemaleName() {
+std::string Database::geneFemaleName() const {
     std::array<std::string, 10> Fnames{"Ala", "Dominika", "Paulina", "Krystyna", "Monika", "Kinga", "Joanna", "Anna", "Aleksandra", "Beata"};
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -239,7 +239,7 @@ std::string Database::geneFemaleName() {
     return Fnames[random_index];
 }
 
-std::string Database::geneMaleSurname() {
+std::string Database::geneMaleSurname() const {
     std::array<std::string, 10> Msurnames{"Wojcik", "Lewandowski", "Zawierucha", "Kowalczyk", "Blasik", "Stuhr", "Koterski", "Woznik", "Szymanski", "Zielinski"};
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -248,7 +248,7 @@ std::string Database::geneMaleSurname() {
     return Msurnames[random_index];
 }
 
-std::string Database::geneFemaleSurname() {
+std::string Database::geneFemaleSurname() const {
     std::array<std::string, 10> Fsurnames{"Wojcik", "Lewandowska", "Zawierucha", "Kowalczyk", "Blasik", "Stuhr", "Koterska", "Wozniak", "Szymanska", "Zielinska"};
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -257,7 +257,7 @@ std::string Database::geneFemaleSurname() {
     return Fsurnames[random_index];
 }
 
-std::string Database::geneAdress() {
+std::string Database::geneAdress() const {
     std::array<std::string, 14> Adress{
         "ul.Czarna 12, 33-400 Zielona Gora", "ul.Anderssa 13, 21-200 Czestochowa", "ul.Kolorowa 7, 10-200 Warszawa", "ul.Wysoka 40, 40-400 Gdynia",
         "ul.Wielka 50, 78-300 Bydgoszcz", "ul.Mala 33, 99-100 Gdansk", "ul.Swieta 1, 65-100 Wielun", "ul.Wysoka 50, 21-200 Szczecin", "ul.Slowackiego 13, 32-300 Wesola",
@@ -269,7 +269,7 @@ std::string Database::geneAdress() {
     return Adress[random_index];
 }
 
-std::string Database::geneMalePesel() {
+std::string Database::geneMalePesel() const {
     std::array<std::string, 10> Mpesel{"71030761957", "03270457615", "06273127699",
                                        "74052073916", "63020367393", "97051871859",
                                        "89082431597", "92012159654", "63061768234",
@@ -281,7 +281,7 @@ std::string Database::geneMalePesel() {
     return Mpesel[random_index];
 }
 
-std::string Database::geneFemalePesel() {
+std::string Database::geneFemalePesel() const {
     std::array<std::string, 10> Fpesel{"71042337146", "63111916284", "68101537669",
                                        "57072691641", "85010869445", "66062889283",
                                        "70110843442", "86050117884", "83060399648",
@@ -293,7 +293,7 @@ std::string Database::geneFemalePesel() {
     return Fpesel[random_index];
 }
 
-std::string Database::geneIndex() {
+std::string Database::geneIndex() const {
     std::string index;
     for (int i = 0; i <= 5; i++) {
         std::random_device rd;
@@ -306,7 +306,7 @@ std::string Database::geneIndex() {
     return index;
 }
 
-size_t Database::geneSalary() {
+size_t Database::geneSalary() const {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distrib(1000, 10000);
@@ -315,7 +315,7 @@ size_t Database::geneSalary() {
     return salary;
 }
 
-size_t Database::modifySalary(std::string pesel) {
+size_t Database::modifySalary(const std::string& pesel) {
     size_t salary{0};
     if (Peseltest(pesel) == true) {
         for (auto n : db_) {
@@ -344,7 +344,7 @@ void Database::menu() {
     int choose;
     char repeat;
     std::string searcher;
-    std::string delIndex;
+    std::string delIndex_fileName;
     size_t size = db_.size();
 
     system("clear");
@@ -375,6 +375,10 @@ void Database::menu() {
               << "11. Modyfikacja zarobków. \n";
     std::cout << std::setw(50) << ' '
               << "12. Sortowanie po zarobkach. \n";
+    std::cout << std::setw(50) << ' '
+              << "13. Dodaj baze danych z pliku. \n";
+    std::cout << std::setw(50) << ' '
+              << "14. Zapis bazy danych do pliku. \n";         
 
     std::cout << "\nWybierz cyfre lub nacisnij dowolny klawisz aby zakonczyc:";
 
@@ -392,6 +396,11 @@ void Database::menu() {
     case 2:
         system("clear");
         makeStudent();
+        if(size != db_.size()) {
+            std::cout << "\nDodano studenta!!!\n";
+        } else {
+            std::cout << "\nNie dodano studenta!!! Podaj prawidlowe dane!!!\n";
+        }
         std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
         std::cin >> repeat;
         if (repeat == 'y' || repeat == 'Y') {
@@ -401,6 +410,11 @@ void Database::menu() {
     case 3:
         system("clear");
         makeEmployee();
+        if(size != db_.size()) {
+            std::cout << "\nDodano pracownika!!!\n";
+        } else {
+            std::cout << "\nNie dodano pracownika!!! Podaj prawidlowe dane!!!\n";
+        }
         std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
         std::cin >> repeat;
         if (repeat == 'y' || repeat == 'Y') {
@@ -438,7 +452,7 @@ void Database::menu() {
         sortByPesel();
         baseMenu();
         display();
-        std::cout << "\nPosortowane po numerze PESEL!!!";
+        std::cout << "\nPosortowane po numerze PESEL!!!\n";
         std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
         std::cin >> repeat;
         if (repeat == 'y' || repeat == 'Y') {
@@ -450,7 +464,7 @@ void Database::menu() {
         sortBySurname();
         baseMenu();
         display();
-        std::cout << "\nPosortowane po Nazwisku!!!";
+        std::cout << "\nPosortowane po Nazwisku!!!\n";
         std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
         std::cin >> repeat;
         if (repeat == 'y' || repeat == 'Y') {
@@ -461,8 +475,8 @@ void Database::menu() {
     case 8:
         system("clear");
         std::cout << "Podaj numer Indexu studenta aby go usunac:";
-        std::cin >> delIndex;
-        deleteById(delIndex);
+        std::cin >> delIndex_fileName;
+        deleteById(delIndex_fileName);
         if (size != db_.size()) {
             std::cout << "\nStudent usuniety!!!\n";
         } else {
@@ -477,7 +491,7 @@ void Database::menu() {
     case 9:
         system("clear");
         geneStudent();
-        std::cout << "Dodano losowego studenta!!!!";
+        std::cout << "\nDodano losowego studenta!!!!\n";
         std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
         std::cin >> repeat;
         if (repeat == 'y' || repeat == 'Y') {
@@ -487,7 +501,7 @@ void Database::menu() {
     case 10:
         system("clear");
         geneEmployee();
-        std::cout << "Dodano losowego pracownika!!!!";
+        std::cout << "\nDodano losowego pracownika!!!!\n";
         std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
         std::cin >> repeat;
         if (repeat == 'y' || repeat == 'Y') {
@@ -514,13 +528,44 @@ void Database::menu() {
         sortbySalary();
         baseMenu();
         display();
-        std::cout << "\nPosortowane po Zarobkach!!!";
+        std::cout << "\nPosortowane po Zarobkach!!!\n";
         std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
         std::cin >> repeat;
         if (repeat == 'y' || repeat == 'Y') {
             return menu();
         } else
             break;
+    case 13:
+        system("clear");
+        std::cout << "Podaj nazwe pliku:";
+        std::cin >> delIndex_fileName;
+        delIndex_fileName += ".txt";
+        loadDataBaseFromaFile(delIndex_fileName);
+        if(db_.size() != size) {
+            std::cout << "\nDodano bazę!!!\n";
+        } else {
+            std::cout << "\nPodales zla nazwe, lub podana baza nie istnieje!!!";
+        }
+        std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
+        std::cin >> repeat;
+        if (repeat == 'y' || repeat == 'Y') {
+            return menu();
+        } else
+            break;
+
+    case 14:
+        system("clear");
+        saveDataBaseToFile();
+        system("clear");
+        std::cout << "\nCala baza zostala zapisana na dysku!!!!\n";        
+        std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
+        std::cin >> repeat;
+        if (repeat == 'y' || repeat == 'Y') {
+            return menu();
+        } else
+            break;
+
+        
 
     default:
         break;

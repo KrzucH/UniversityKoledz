@@ -20,29 +20,28 @@ public:
     bool searchPeselTrue_False(const std::string& pesel);
     void sortByPesel();
     void sortBySurname();
-    void deleteById(std::string id);
-    bool Peseltest(std::string pesel);
-    void loadDataBaseFromaFile(const std::string& baza_txt, Database& baza);
-    void saveDataBaseToFile(const Database& baza);
+    void deleteById(const std::string& id);
+    bool Peseltest(const std::string& pesel);
+    void loadDataBaseFromaFile(const std::string& baza_txt);
+    void saveDataBaseToFile();
 
     Student geneStudent();
     Employee geneEmployee();
 
     size_t geneGender();
-    std::string geneMaleName();
-    std::string geneFemaleName();
-    std::string geneMaleSurname();
-    std::string geneFemaleSurname();
-    std::string geneMalePesel();
-    std::string geneFemalePesel();
-    std::string geneAdress();
-    std::string geneIndex();
-    size_t geneSalary();
-    
-    size_t modifySalary(std::string pesel);
+    std::string geneMaleName() const;
+    std::string geneFemaleName() const;
+    std::string geneMaleSurname() const;
+    std::string geneFemaleSurname() const;
+    std::string geneMalePesel() const;
+    std::string geneFemalePesel() const;
+    std::string geneAdress() const;
+    std::string geneIndex() const;
+    size_t geneSalary() const;
 
+    size_t modifySalary(const std::string& pesel);
     void sortbySalary();
-    
+
     void menu();
     void baseMenu() const;
     Student makeStudent();
