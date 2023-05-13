@@ -49,4 +49,5 @@ private:
     std::string street_;
     std::string pesel_;
     Gender gender_;
+    
 };

@@ -1,4 +1,6 @@
 #include "person.hpp"
+#include <iomanip>
+#include <iostream>
 
 Person::Person(
     const std::string& name,
@@ -9,6 +11,11 @@ Person::Person(
     : name_(name), surname_(surname), street_(street), pesel_(pesel), gender_(gender) {}
 
 std::string Person::show() const {
+    if (getSala() == 0) {
+        std::cout << std::setfill(' ') << std::left << "| "<< std::setw(15) << getName() <<  std::setw(20) << getSurname() << std::setw(45) << getStreet() << std::setw(15) << getID() << std::setw(15) << getPesel() << std::setw(15) << "Student" << changeToString(getGender());
+    } else {
+        std::cout << std::setfill(' ') << std::left << "| " << std::setw(15) << getName() << std::setw(20) << getSurname() << std::setw(45) << getStreet() << std::setw(15) << getID() << std::setw(15) << getPesel() << std::setw(15) << std::to_string(getSala()) << changeToString(getGender());
+    }
     return getName() + "; " + getSurname() + "; " + getStreet() + "; " + getID() + "; " + getPesel() + "; " + std::to_string(getSala()) + "; " + changeToString(getGender());
 };
 
@@ -28,7 +35,8 @@ Gender Person::getGender() const {
     return gender_;
 };
 std::string Person::getID() const {
-    return "No Index";
+    std::string word{"Employee"};
+    return word;
 }
 size_t Person::getSala() const {
     return 0;
@@ -50,10 +58,10 @@ void Person::setGender(const Gender& gender) {
     gender_ = gender;
 };
 void Person::setID(const std::string& id) {
-    std::string error {"No id"}; 
+    std::string error{"No id"};
     error = id;
 }
 void Person::setSala(const size_t& sala) {
-    size_t number {0};
+    size_t number{0};
     number = sala;
 }

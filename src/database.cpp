@@ -1,34 +1,30 @@
 #include "database.hpp"
 #include <array>
+#include <iomanip>
 #include <iostream>
+#include <locale>
 #include <random>
 
 void Database::addStudent(const Student& s) {
-    if (Database::Peseltest(s.getPesel()) == true && Database::searchPesel(s.getPesel()) == "") {
+    if (Database::Peseltest(s.getPesel()) == true && Database::searchPeselTrue_False(s.getPesel()) == false) {
         db_.push_back(std::make_shared<Student>(s));
-    } else if (Database::Peseltest(s.getPesel()) == false) {
-        std::cout << "Podałeś zły pesel.\n";
-    } else {
-        std::cout << "Student jest już w bazie.\n";
     }
 }
 
 void Database::addEmpolyee(const Employee& e) {
-    if (Database::Peseltest(e.getPesel()) == true && Database::searchPesel(e.getPesel()) == "") {
+    if (Database::Peseltest(e.getPesel()) == true && Database::searchPeselTrue_False(e.getPesel()) == false) {
         db_.push_back(std::make_shared<Employee>(e));
-    } else if (Database::Peseltest(e.getPesel()) == false) {
-        std::cout << "Podałeś zły pesel.\n";
-    } else {
-        std::cout << "Pracownik jest już w bazie.\n";
     }
 }
 
 void Database::display() const {
-    std::cout << show();
+    baseMenu();
+    show();
 }
 
 std::string Database::show() const {
     std::string result = "";
+
     for (const auto& person : db_) {
         result += person->show();
     }
@@ -42,16 +38,27 @@ std::vector<std::shared_ptr<Person>> Database::searchSurname(const std::string& 
     for (const auto& person : db_) {
         if (surname == person->getSurname()) {
             vec.push_back(person);
-            std::cout << vec[vec.size() - 1]->show();
+
+            vec[vec.size() - 1]->show();
         }
     }
     return vec;
+}
+
+bool Database::searchPeselTrue_False(const std::string& pesel) {
+    for (const auto& person : db_) {
+        if (pesel == person->getPesel()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 std::string Database::searchPesel(const std::string& pesel) {
     std::string pesel1{""};
     for (const auto& person : db_) {
         if (pesel == person->getPesel()) {
+            std::cout << "1. ";
             pesel1 = person->show();
             return pesel1;
         }
@@ -90,10 +97,11 @@ void Database::sortBySurname() {
 }
 
 void Database::deleteById(std::string id) {
-    db_.erase(std::remove_if(db_.begin(), db_.end(), [id](auto Id_) {
-        std::string id1 = Id_->getID();
-        return id == id1;
-    }));
+    db_.erase(std::remove_if(db_.begin(), db_.end(), [id](auto ID) {
+                  std::string index = ID->getID();
+                  return id == index;
+              }),
+              db_.end());
 }
 
 bool Database::Peseltest(std::string pesel) {
@@ -232,7 +240,7 @@ std::string Database::geneFemaleName() {
 }
 
 std::string Database::geneMaleSurname() {
-    std::array<std::string, 10> Msurnames{"Wójcik", "Lewandowski", "Zawierucha", "Kowalczyk", "Błasik", "Stuhr", "Koterski", "Woznik", "Szymanski", "Zielinski"};
+    std::array<std::string, 10> Msurnames{"Wojcik", "Lewandowski", "Zawierucha", "Kowalczyk", "Blasik", "Stuhr", "Koterski", "Woznik", "Szymanski", "Zielinski"};
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distrib(0, 9);
@@ -241,7 +249,7 @@ std::string Database::geneMaleSurname() {
 }
 
 std::string Database::geneFemaleSurname() {
-    std::array<std::string, 10> Fsurnames{"Wójcik", "Lewandowska", "Zawierucha", "Kowalczyk", "Błasik", "Stuhr", "Koterska", "Wozniak", "Szymanska", "Zielinska"};
+    std::array<std::string, 10> Fsurnames{"Wojcik", "Lewandowska", "Zawierucha", "Kowalczyk", "Blasik", "Stuhr", "Koterska", "Wozniak", "Szymanska", "Zielinska"};
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distrib(0, 9);
@@ -251,7 +259,7 @@ std::string Database::geneFemaleSurname() {
 
 std::string Database::geneAdress() {
     std::array<std::string, 14> Adress{
-        "ul.Czarna 12, 33-400 Zielona Gora", "ul.Anderssa 13, 21-200 Czestochowa", "ul. Kolorowa 7, 10-200 Warszawa", "ul.Wysoka 40, 40-400 Gdynia",
+        "ul.Czarna 12, 33-400 Zielona Gora", "ul.Anderssa 13, 21-200 Czestochowa", "ul.Kolorowa 7, 10-200 Warszawa", "ul.Wysoka 40, 40-400 Gdynia",
         "ul.Wielka 50, 78-300 Bydgoszcz", "ul.Mala 33, 99-100 Gdansk", "ul.Swieta 1, 65-100 Wielun", "ul.Wysoka 50, 21-200 Szczecin", "ul.Slowackiego 13, 32-300 Wesola",
         "ul.Boguslawa 13, 56-200 Przemysl", "ul.Smieszna 5, 22-300 Poznan", "ul.Wysoka 88, 98-300 Sieradz", "ul.Biala 100, 32-650 Torun", "ul.Nowakow 77, 41-500 Kosazlin"};
     std::random_device rd;
@@ -312,8 +320,8 @@ size_t Database::modifySalary(std::string pesel) {
     if (Peseltest(pesel) == true) {
         for (auto n : db_) {
             if (n->getPesel() == pesel) {
-                if (n->getID() == "No Index") {
-                    std::cout << "Podaj zarobki dla " << n->getName() << " " << n->getSurname() << " o numrze PESEL " << n->getPesel() << ": ";
+                if (n->getID() == "Employee") {
+                    std::cout << "Podaj zarobki dla " << n->getName() << " " << n->getSurname() << " o numerze PESEL " << n->getPesel() << ": ";
                     std::cin >> salary;
                     n->setSala(salary);
                     return salary;
@@ -326,8 +334,303 @@ size_t Database::modifySalary(std::string pesel) {
 
 void Database::sortbySalary() {
     sort(db_.begin(), db_.end(), [](auto first, auto second) {
-        std::string salary1 = std::to_string(first->getSala());
-        std::string salary2 = std::to_string(second->getSala());
+        size_t salary1 = first->getSala();
+        size_t salary2 = second->getSala();
         return salary1 > salary2;
     });
+}
+
+void Database::menu() {
+    int choose;
+    char repeat;
+    std::string searcher;
+    std::string delIndex;
+    size_t size = db_.size();
+
+    system("clear");
+    std::cout << std::setfill('*') << std::setw(50) << "*"
+              << "{ Witaj w BazieDanych - Koledz }****************************************" << '\n';
+    std::cout << "\n";
+    std::cout << std::setfill(' ') << std::setw(50) << ' '
+              << "1. Wyswietl cala baze danych.\n";
+    std::cout << std::setw(50) << ' '
+              << "2. Dodaj Studenta.\n";
+    std::cout << std::setw(50) << ' '
+              << "3. Dodaj Pracownika. \n";
+    std::cout << std::setw(50) << ' '
+              << "4. Wyszukaj po nazwisku. \n";
+    std::cout << std::setw(50) << ' '
+              << "5. Wyszukaj po numerze PESEL. \n";
+    std::cout << std::setw(50) << ' '
+              << "6. Sortuj po numerze PESEL. \n";
+    std::cout << std::setw(50) << ' '
+              << "7. Sortuj po nazwisku. \n";
+    std::cout << std::setw(50) << ' '
+              << "8. Usuwanie po numerze indeksu. \n";
+    std::cout << std::setw(50) << ' '
+              << "9. Dodaj losowego studenta. \n";
+    std::cout << std::setw(50) << ' '
+              << "10. Dodaj losowego pracownika. \n";
+    std::cout << std::setw(50) << ' '
+              << "11. Modyfikacja zarobków. \n";
+    std::cout << std::setw(50) << ' '
+              << "12. Sortowanie po zarobkach. \n";
+
+    std::cout << "\nWybierz cyfre lub nacisnij dowolny klawisz aby zakonczyc:";
+
+    std::cin >> choose;
+    switch (choose) {
+    case 1:
+
+        display();
+        std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
+        std::cin >> repeat;
+        if (repeat == 'y' || repeat == 'Y') {
+            return menu();
+        } else
+            break;
+    case 2:
+        system("clear");
+        makeStudent();
+        std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
+        std::cin >> repeat;
+        if (repeat == 'y' || repeat == 'Y') {
+            return menu();
+        } else
+            break;
+    case 3:
+        system("clear");
+        makeEmployee();
+        std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
+        std::cin >> repeat;
+        if (repeat == 'y' || repeat == 'Y') {
+            return menu();
+        } else
+            break;
+    case 4:
+        system("clear");
+        std::cout << "Wpisz nazwisko:";
+        std::cin >> searcher;
+        baseMenu();
+        searchSurname(searcher);
+        std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
+        std::cin >> repeat;
+        if (repeat == 'y' || repeat == 'Y') {
+            return menu();
+        } else
+            break;
+
+    case 5:
+        system("clear");
+        std::cout << "Wpisz PESEL:";
+        std::cin >> searcher;
+        baseMenu();
+        searchPesel(searcher);
+        std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
+        std::cin >> repeat;
+        if (repeat == 'y' || repeat == 'Y') {
+            return menu();
+        } else
+            break;
+
+    case 6:
+        system("clear");
+        sortByPesel();
+        baseMenu();
+        display();
+        std::cout << "\nPosortowane po numerze PESEL!!!";
+        std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
+        std::cin >> repeat;
+        if (repeat == 'y' || repeat == 'Y') {
+            return menu();
+        } else
+            break;
+    case 7:
+        system("clear");
+        sortBySurname();
+        baseMenu();
+        display();
+        std::cout << "\nPosortowane po Nazwisku!!!";
+        std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
+        std::cin >> repeat;
+        if (repeat == 'y' || repeat == 'Y') {
+            return menu();
+        } else
+            break;
+
+    case 8:
+        system("clear");
+        std::cout << "Podaj numer Indexu studenta aby go usunac:";
+        std::cin >> delIndex;
+        deleteById(delIndex);
+        if (size != db_.size()) {
+            std::cout << "\nStudent usuniety!!!\n";
+        } else {
+            std::cout << "\nPodales zly index!!!!\n";
+        }
+        std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
+        std::cin >> repeat;
+        if (repeat == 'y' || repeat == 'Y') {
+            return menu();
+        } else
+            break;
+    case 9:
+        system("clear");
+        geneStudent();
+        std::cout << "Dodano losowego studenta!!!!";
+        std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
+        std::cin >> repeat;
+        if (repeat == 'y' || repeat == 'Y') {
+            return menu();
+        } else
+            break;
+    case 10:
+        system("clear");
+        geneEmployee();
+        std::cout << "Dodano losowego pracownika!!!!";
+        std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
+        std::cin >> repeat;
+        if (repeat == 'y' || repeat == 'Y') {
+            return menu();
+        } else
+            break;
+    case 11:
+        system("clear");
+        std::cout << "Wpisz PESEL pracownika:";
+        std::cin >> searcher;
+        if (!modifySalary(searcher)) {
+            std::cout << "\nPodales zly PESEL!!!\n";
+        } else {
+            std::cout << "\nZmieniono zarobki!!!\n";
+        }
+        std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
+        std::cin >> repeat;
+        if (repeat == 'y' || repeat == 'Y') {
+            return menu();
+        } else
+            break;
+    case 12:
+        system("clear");
+        sortbySalary();
+        baseMenu();
+        display();
+        std::cout << "\nPosortowane po Zarobkach!!!";
+        std::cout << "\nPowrót do Menu nacisnij 'y' lub nacisnij dowolny klawisz aby zakonczyc:";
+        std::cin >> repeat;
+        if (repeat == 'y' || repeat == 'Y') {
+            return menu();
+        } else
+            break;
+
+    default:
+        break;
+    }
+}
+
+void Database::baseMenu() const {
+    system("clear");
+
+    std::cout << "  "
+              << "{NAME}"
+              << "        "
+              << "{SURNAME}"
+              << "                    "
+              << "{STREET}"
+              << "                             "
+              << "{INDEX}"
+              << "         "
+              << "{PESEL}"
+              << "      "
+              << "{SALARY}"
+              << "       "
+              << "{GENDER}";
+    std::cout << "\n\n";
+}
+
+Student Database::makeStudent() {
+    std::string name;
+    std::string surname;
+    std::string fullstreet{"ul."};
+    std::string street;
+    std::string index;
+    std::string pesel;
+    std::string gender;
+    Gender gender1;
+
+    std::cout << "Imie studenta:";
+    std::cin >> name;
+    std::cout << "Nazwisko studenta:";
+    std::cin >> surname;
+    std::cout << "Podaj ulice:";
+    std::cin >> street;
+    fullstreet += street + " ";
+    std::cout << "Podaj numer mieszkania/domu:";
+    std::cin >> street;
+    fullstreet += street + ", ";
+    std::cout << "Podaj kod pocztowy:";
+    std::cin >> street;
+    fullstreet += street + " ";
+    std::cout << "Podaj miasto:";
+    std::cin >> street;
+    fullstreet += street;
+    std::cout << "Index:";
+    std::cin >> index;
+    std::cout << "PESEL:";
+    std::cin >> pesel;
+    std::cout << "Plec Male/Female:";
+    std::cin >> gender;
+    if (gender == "Male" || gender == "male") {
+        gender1 = Gender::Male;
+    } else {
+        gender1 = Gender::Female;
+    }
+
+    Student student{name, surname, fullstreet, pesel, Gender::Male, index};
+    addStudent(student);
+
+    return student;
+}
+
+Employee Database::makeEmployee() {
+    std::string name;
+    std::string surname;
+    std::string fullstreet{"ul."};
+    std::string street;
+    size_t salary;
+    std::string pesel;
+    std::string gender;
+    Gender gender1;
+
+    std::cout << "Imie:";
+    std::cin >> name;
+    std::cout << "Nazwisko:";
+    std::cin >> surname;
+    std::cout << "Podaj ulice:";
+    std::cin >> street;
+    fullstreet += street + " ";
+    std::cout << "Podaj numer mieszkania/domu:";
+    std::cin >> street;
+    fullstreet += street + ", ";
+    std::cout << "Podaj kod pocztowy:";
+    std::cin >> street;
+    fullstreet += street + " ";
+    std::cout << "Podaj miasto:";
+    std::cin >> street;
+    fullstreet += street;
+    std::cout << "Salary:";
+    std::cin >> salary;
+    std::cout << "PESEL:";
+    std::cin >> pesel;
+    std::cout << "Plec Male/Female:";
+    std::cin >> gender;
+    if (gender == "Male" || gender == "male") {
+        gender1 = Gender::Male;
+    } else {
+        gender1 = Gender::Female;
+    }
+
+    Employee employee{name, surname, fullstreet, pesel, Gender::Male, salary};
+    addEmpolyee(employee);
+
+    return employee;
 }

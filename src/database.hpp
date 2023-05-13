@@ -17,6 +17,7 @@ public:
 
     std::vector<std::shared_ptr<Person>> searchSurname(const std::string& surname);
     std::string searchPesel(const std::string& pesel);
+    bool searchPeselTrue_False(const std::string& pesel);
     void sortByPesel();
     void sortBySurname();
     void deleteById(std::string id);
@@ -42,4 +43,8 @@ public:
 
     void sortbySalary();
     
+    void menu();
+    void baseMenu() const;
+    Student makeStudent();
+    Employee makeEmployee();
 };
