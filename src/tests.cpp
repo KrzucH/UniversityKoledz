@@ -6,6 +6,24 @@ struct DatabaseTest : ::testing::Test {
     Database db;
 };
 
+bool checkerID(const std::string& id, const Database& db1) {
+    for (const auto& n : db1.db_) {
+        if (id == n->getID()) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool checkerPesel(const std::string pesel, const Database& db2) {
+    for (const auto& n : db2.db_) {
+        if (pesel == n->show()) {
+            return true;
+        }
+    }
+    return false;
+};
+
 TEST_F(DatabaseTest, DisplayEmptyDb) {
     auto content = db.show();
     std::string expected = "";
@@ -85,19 +103,17 @@ TEST_F(DatabaseTest, SearchByName) {
         "123456"};
     db.addStudent(marcin);
 
-    Kowalski.push_back(std::make_shared<Student> (adam));
-    Kowalski.push_back(std::make_shared<Employee> (zdzislaw));
+    Kowalski.push_back(std::make_shared<Student>(adam));
+    Kowalski.push_back(std::make_shared<Employee>(zdzislaw));
 
     auto expected = Kowalski[0]->show();
     auto expected1 = Kowalski[1]->show();
-
-    
 
     auto content = db.searchSurname("Kowalski");
 
     int i = 0;
     for (auto n : content) {
-        if (n -> getSurname() == Kowalski[i]->getSurname()) {
+        if (n->getSurname() == Kowalski[i]->getSurname()) {
             vec.push_back(n);
             i++;
         }
@@ -167,29 +183,11 @@ TEST_F(DatabaseTest, SearchByPesel) {
     auto content1 = db.searchPesel("72011953343");
     auto content2 = db.searchPesel("02260323723");
 
-    bool checker = false;
-    for (const auto& n : db.db_) {
-        if (content == n->show()) {
-            checker = true;
-        }
-    }
-    EXPECT_TRUE(checker);
+    EXPECT_TRUE(checkerPesel(content, db));
 
-    checker = false;
-    for (const auto& n : db.db_) {
-        if (content1 == n->show()) {
-            checker = true;
-        }
-    }
-    EXPECT_TRUE(checker);
+    EXPECT_TRUE(checkerPesel(content1, db));
 
-    checker = false;
-    for (const auto& n : db.db_) {
-        if (content2 == n->show()) {
-            checker = true;
-        }
-    }
-    EXPECT_TRUE(checker);
+    EXPECT_TRUE(checkerPesel(content2, db));
 }
 
 TEST_F(DatabaseTest, SortByPesel) {
@@ -323,7 +321,7 @@ TEST_F(DatabaseTest, SortBySurname) {
     db.sortBySurname();
 
     for (const auto& n : db.db_) {
-        surname.push_back(n -> getSurname());
+        surname.push_back(n->getSurname());
     }
     EXPECT_EQ("Kowalska", surname[0]);
     EXPECT_EQ("Kowalski", surname[1]);
@@ -334,7 +332,6 @@ TEST_F(DatabaseTest, SortBySurname) {
 }
 
 TEST_F(DatabaseTest, DeleteById) {
-
     Student adam{
         "Jan",
         "Kowalski",
@@ -388,7 +385,6 @@ TEST_F(DatabaseTest, DeleteById) {
         Gender::Male,
         "123456"};
     db.addStudent(marcin);
- 
 
     db.deleteById("123456");
     db.deleteById("735921");
@@ -397,38 +393,13 @@ TEST_F(DatabaseTest, DeleteById) {
 
     auto content = db.db_.size();
 
-    bool checker = true;
-    for (const auto& n : db.db_) {
-        if ("123456" == n -> getID()) {
-            checker = false;
-        }
-    }
+    EXPECT_TRUE(checkerID("123456", db));
 
-    EXPECT_TRUE(checker);
+    EXPECT_TRUE(checkerID("236453", db));
 
-    checker = true;
-    for (const auto& n : db.db_) {
-        if ("236453" == n -> getID()) {
-            checker = false;
-        }
-    }
-    EXPECT_TRUE(checker);
+    EXPECT_TRUE(checkerID("882143", db));
 
-    checker = true;
-    for (const auto& n : db.db_) {
-        if ("882143" == n -> getID()) {
-            checker = false;
-        }
-    }
-    EXPECT_TRUE(checker);
-
-    checker = true;
-    for (const auto& n : db.db_) {
-        if ("186421" == n -> getID()) {
-            checker = false;
-        }
-    }
-    EXPECT_TRUE(checker);
+    EXPECT_TRUE(checkerID("186421", db));
 
     EXPECT_EQ(2, content);
 }

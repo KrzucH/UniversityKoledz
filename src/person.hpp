@@ -22,7 +22,6 @@ public:
             const std::string& street,
             const std::string& pesel,
             const Gender& gender);
-
     virtual ~Person() = default;
 
     std::string show() const;

@@ -1,11 +1,16 @@
 #pragma once
 #include <algorithm>
+#include <array>
 #include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <locale>
 #include <memory>
+#include <random>
 #include <vector>
 #include "employee.hpp"
+#include "generator.hpp"
 #include "student.hpp"
-
 class Database {
 public:
     std::vector<std::shared_ptr<Person>> db_{};
@@ -27,17 +32,7 @@ public:
 
     Student geneStudent();
     Employee geneEmployee();
-
-    size_t geneGender();
-    std::string geneMaleName() const;
-    std::string geneFemaleName() const;
-    std::string geneMaleSurname() const;
-    std::string geneFemaleSurname() const;
-    std::string geneMalePesel() const;
-    std::string geneFemalePesel() const;
-    std::string geneAdress() const;
-    std::string geneIndex() const;
-    size_t geneSalary() const;
+    Generator generator;
 
     size_t modifySalary(const std::string& pesel);
     void sortbySalary();

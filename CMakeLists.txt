@@ -13,11 +13,11 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_executable(${PROJECT_NAME} src/main.cpp src/database.cpp src/student.cpp src/person.cpp src/employee.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp src/database.cpp src/student.cpp src/person.cpp src/employee.cpp src/generator.cpp)
 
 enable_testing()
 
-add_executable(hello_test  src/tests.cpp src/database.cpp src/student.cpp src/person.cpp src/employee.cpp)
+add_executable(hello_test  src/tests.cpp src/database.cpp src/student.cpp src/person.cpp src/employee.cpp src/generator.cpp)
 target_link_libraries(hello_test  GTest::gtest_main)
 
 include(GoogleTest)
