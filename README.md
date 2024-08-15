@@ -1,4 +1,4 @@
-<h1 align="center"> University Koledz Database </h1>
+<h1 align="center"> University Database </h1>
 
 Database that contains a records of Students and Employess:
 
